@@ -19,7 +19,7 @@ setup(
         'console_scripts': [],
     },
     python_requires='>=3.10',
-    keywords=['changelist', 'vcs']
+    keywords=['changelist', 'vcs'],
     classifiers=[
         'Natural Language :: English',
         'Operating System :: OS Independent',
@@ -32,4 +32,3 @@ setup(
         'Programming Language :: Python :: 3.13',
     ],
 )
-
