@@ -16,10 +16,9 @@ def read_changelists_storage(
     """
     if file_path is None:
         return [] # Empty Changelists
-    text = file_validation.validate_file_input_text(file_path)
-    if len(text) > 30000:
-        raise ValueError("Changelist File Length too Long")
-    return changelists.read_xml(text)
+    return changelists.read_xml(
+        file_validation.validate_file_input_text(file_path)
+    )
 
 
 def read_workspace_storage(
@@ -29,10 +28,9 @@ def read_workspace_storage(
     """
     if file_path is None:
         raise ValueError("Workspace File Not Found")
-    text = file_validation.validate_file_input_text(file_path)
-    if len(text) > 30000:
-        raise ValueError("Changelist File Length too Long")
-    return workspace.read_xml(text)
+    return workspace.read_xml(
+        file_validation.validate_file_input_text(file_path)
+    )
 
 
 def load_changelists_tree(
