@@ -1,7 +1,5 @@
 """Testing Module Methods
 """
-import pytest
-
 from test.changelist_data import provider
 
 

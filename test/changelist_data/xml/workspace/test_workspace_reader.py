@@ -1,48 +1,48 @@
 """Testing Changelist Reader Methods.
 """
-from changelist_foci.workspace.workspace_reader import _extract_changelist_manager, read_workspace_changelists
+from changelist_data.xml.workspace.workspace_reader import find_changelist_manager, parse_xml, read_workspace_xml
 
 from test.changelist_data.xml.workspace.provider import get_no_changelist_xml, get_simple_changelist_xml, get_multi_changelist_xml
 
 
-def test_extract_changelist_manager_empty_xml_returns_none():
-    assert _extract_changelist_manager("") is None
+def test_find_changelist_manager_empty_xml_returns_none():
+    assert find_changelist_manager(parse_xml("")) is None
 
 
-def test_extract_changelist_manager_no_changelist_returns_none():
-    assert _extract_changelist_manager(get_no_changelist_xml()) is None
+def test_find_changelist_manager_no_changelist_returns_none():
+    assert find_changelist_manager(parse_xml(get_no_changelist_xml())) is None
 
 
-def test_extract_changelist_manager_simple_changelist_returns_element():
-    element = _extract_changelist_manager(get_simple_changelist_xml())
+def test_find_changelist_manager_simple_changelist_returns_element():
+    element = find_changelist_manager(parse_xml(get_simple_changelist_xml()))
     change_lists = list(element.iter())
     print(change_lists)
 
 
-def test_extract_changelist_manager_multi_changelist_returns_element():
-    element = _extract_changelist_manager(get_multi_changelist_xml())
+def test_find_changelist_manager_multi_changelist_returns_element():
+    element = find_changelist_manager(parse_xml(get_multi_changelist_xml()))
     change_lists = list(element.iter())
     print(change_lists)
 
 
-def test_read_workspace_changelists_empty_raises_error():
+def test_read_workspace_xml_empty_raises_error():
     try:
-        read_workspace_changelists("")
+        read_workspace_xml("")
         assert False
     except SystemExit:
         assert True
 
 
-def test_read_workspace_changelists_no_change_list_returns_empty_list():
+def test_read_workspace_xml_no_change_list_returns_empty_list():
     try:
-        read_workspace_changelists(get_no_changelist_xml())
+        read_workspace_xml(get_no_changelist_xml())
         assert False
     except SystemExit:
         assert True
 
 
-def test_read_workspace_changelists_simple_returns_single_changelist():
-    result = read_workspace_changelists(get_simple_changelist_xml())
+def test_read_workspace_xml_simple_returns_single_changelist():
+    result = read_workspace_xml(get_simple_changelist_xml())
     assert 1 == len(result)
     # Check the First and only Changelist
     result_cl = result[0]
@@ -55,8 +55,8 @@ def test_read_workspace_changelists_simple_returns_single_changelist():
     assert 1 == change_length
 
 
-def test_read_workspace_changelists_multi_returns_2_changelists():
-    result = read_workspace_changelists(get_multi_changelist_xml())
+def test_read_workspace_xml_multi_returns_2_changelists():
+    result = read_workspace_xml(get_multi_changelist_xml())
     assert 2 == len(result)
     # Check both ChangeLists
     result_c1, result_c2 = result[0], result[1]

@@ -2,7 +2,7 @@
 """
 from xml.etree.ElementTree import fromstring
 
-from changelist_sort.workspace.xml_reader import filter_by_tag
+from changelist_data.xml.xml_reader import filter_by_tag
 from test.changelist_data.xml.changelists import provider
 
 

@@ -1,12 +1,13 @@
 """ Testing Changelists Reader.
 """
 from changelist_data.xml.changelists.changelists_reader import read_xml
-from test.changelist_data.xml.changelists.provider import *
+from test.changelist_data.xml.changelists.provider import get_simple_changelist_xml, get_no_changelist_xml, \
+    get_multi_changelist_xml
 
 
 def test_read_xml_empty_string_raises_exit():
     try:
-        result = read_xml("")
+        read_xml("")
         raises_exit = False
     except SystemExit:
         raises_exit = True
@@ -15,7 +16,7 @@ def test_read_xml_empty_string_raises_exit():
 
 def test_read_xml_no_cl_raises_exit():
     try:
-        result = read_xml(get_no_changelist_xml())
+        read_xml(get_no_changelist_xml())
         raises_exit = False
     except SystemExit:
         raises_exit = True
