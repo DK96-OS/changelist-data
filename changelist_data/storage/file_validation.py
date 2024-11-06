@@ -47,7 +47,7 @@ def get_default_file_path() -> Path:
 def validate_file_input_text(file_path: Path) -> str:
     """
     Ensure that the File Exists, and is within reasonable size parameters.
-        Read the File and return it's string contents.
+        Read the File and return its string contents.
 
     Parameters:
     - file_path (Path): The Path to the Input File.
@@ -67,9 +67,9 @@ def validate_file_input_text(file_path: Path) -> str:
         exit("Input File was larger than 32 MB. Refusing to read it.")
     try:
         return file_path.read_text()
-    except IOError:
-        exit("IOError occurred while reading Input File")
     except FileNotFoundError:
         exit("Couldn't find the file, after checking that it exists.")
+    except IOError:
+        exit("IOError occurred while reading Input File")
     except:
-        exit(f"Other Error occurred while reading Input File (name={file_path.name}, fileSize={file_size} kb)")
+        exit(f"Unexpected Error occurred while reading Input File (name={file_path.name}, fileSize={file_size} kb)")
