@@ -40,11 +40,7 @@ def load_default() -> ChangelistDataStorage | None:
 
 
 EMPTY_CHANGELISTS_DATA = """<?xml version="1.0" encoding="UTF-8"?>
-<changelists version="1">
-  <list id="9f60fda2f83a47c88" name="Simple" comment="Main Program Files">
-    <change beforePath="/main.py" beforeDir="false"  afterPath="/main.py" afterDir="false" />
-  </list>
-</changelists>"""
+<changelists></changelists>"""
 
 
 def write_file(
