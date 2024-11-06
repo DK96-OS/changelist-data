@@ -49,7 +49,7 @@ def test_extract_list_elements_no_cl_returns_empty_list():
     assert len(result) == 0
 
 
-def test_replace_changelists_simple_with_empty():
+def test_update_changelists_simple_with_empty():
     ct_tree = get_simple_ct_tree()
     ct_tree.update_changelists([])
     # Get Elements
@@ -57,7 +57,7 @@ def test_replace_changelists_simple_with_empty():
     assert len(result) == 0
 
 
-def test_replace_changelists_simple_with_multi():
+def test_update_changelists_simple_with_multi():
     ct_tree = get_simple_ct_tree()
     ct_tree.update_changelists([
         Changelist(
