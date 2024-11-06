@@ -27,7 +27,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest pytest-cov
+          pip install pytest pytest-cov==5.0.0
 
       - name: Run unit tests
         run: pytest test/ --cov=changelist_data --cov-report=html --cov-fail-under=90
