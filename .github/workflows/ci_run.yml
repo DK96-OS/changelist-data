@@ -33,6 +33,7 @@ jobs:
         run: pytest test/ --cov=changelist_data --cov-report=html --cov-fail-under=90
 
       - name: Upload Test Coverage Reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cov-${{ matrix.os }}-${{ matrix.python-version }}
