@@ -87,6 +87,56 @@ def test_read_storage_workspace_simple_cl_():
     assert len(result) == 1
 
 
+def test_read_storage_changelists_simple_cl_returns_simple_list():
+    with pytest.MonkeyPatch().context() as c:
+        c.setattr(Path, 'exists', lambda _: True)
+        c.setattr(Path, 'is_file', lambda _: True)
+        obj = Mock()
+        obj.__dict__["st_size"] = 4 * 1024
+        c.setattr(Path, 'stat', lambda _: obj)
+        c.setattr(Path, 'read_text', lambda _: changelists_provider.get_simple_changelist_xml())
+        result = read_storage(StorageType.CHANGELISTS)
+    assert len(result) == 1
+
+
+def test_read_storage_changelists_multi_cl_returns_list():
+    with pytest.MonkeyPatch().context() as c:
+        c.setattr(Path, 'exists', lambda _: True)
+        c.setattr(Path, 'is_file', lambda _: True)
+        obj = Mock()
+        obj.__dict__["st_size"] = 4 * 1024
+        c.setattr(Path, 'stat', lambda _: obj)
+        c.setattr(Path, 'read_text', lambda _: changelists_provider.get_multi_changelist_xml())
+        result = read_storage(StorageType.CHANGELISTS)
+    assert len(result) == 2
+
+
+
+def test_read_storage_workspace_simple_cl_returns_simple_list():
+    with pytest.MonkeyPatch().context() as c:
+        c.setattr(Path, 'exists', lambda _: True)
+        c.setattr(Path, 'is_file', lambda _: True)
+        obj = Mock()
+        obj.__dict__["st_size"] = 4 * 1024
+        c.setattr(Path, 'stat', lambda _: obj)
+        c.setattr(Path, 'read_text', lambda _: workspace_provider.get_simple_changelist_xml())
+        result = read_storage(StorageType.WORKSPACE)
+    assert len(result) == 1
+
+
+def test_read_storage_workspace_multi_cl_returns_list():
+    with pytest.MonkeyPatch().context() as c:
+        c.setattr(Path, 'exists', lambda _: True)
+        c.setattr(Path, 'is_file', lambda _: True)
+        obj = Mock()
+        obj.__dict__["st_size"] = 4 * 1024
+        c.setattr(Path, 'stat', lambda _: obj)
+        c.setattr(Path, 'read_text', lambda _: workspace_provider.get_multi_changelist_xml())
+        result = read_storage(StorageType.WORKSPACE)
+    assert len(result) == 2
+
+
+
 def test_load_storage_changelists_empty_file_raises_exit(temp_file):
     temp_file.write_text("")
     try:
