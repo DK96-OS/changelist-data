@@ -6,8 +6,10 @@ from setuptools import setup, find_packages
 setup(
     name="changelist-data",
     version="0.1",
-	author='DK96-OS',
 	description='Data Management base package for Changelists CLI Tools',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+	author='DK96-OS',
 	url='https://github.com/DK96-OS/changelist-data/',
 	project_urls={
         "Issues": "https://github.com/DK96-OS/changelist-data/issues",
