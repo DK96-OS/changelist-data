@@ -17,14 +17,19 @@ def read_xml(
     Returns:
     list[Changelist] - The list of Changelists in the workspace file.
     """
-    return workspace_reader.read_workspace_xml(workspace_xml)
+    if (cl_manager := workspace_reader.find_changelist_manager(workspace_reader.parse_xml(workspace_xml))) is None:
+        exit("ChangeList Manager was not found in the workspace file.")
+    return workspace_reader.extract_list_elements(cl_manager)
 
 
-def load_tree(
+def load_xml(
     workspace_xml: str
 ) -> WorkspaceTree:
     """
     Parse the Workspace XML file into an XML Tree, and Wrap it.
+
+    Parameters:
+    - workspace_xml (str): The contents of the Workspace file, in xml format.
 
     Returns:
     WorkspaceTree - An XML Tree changelists interface.

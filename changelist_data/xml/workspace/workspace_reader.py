@@ -7,7 +7,7 @@ from changelist_data.changelist import Changelist
 from changelist_data.xml import xml_reader
 
 
-def read_workspace_xml(
+def read_xml(
     workspace_xml: str
 ) -> list[Changelist]:
     """
@@ -68,7 +68,7 @@ def extract_list_elements(
         Changelist(
             id=xml_reader.get_attr(cl_element, 'id'),
             name=xml_reader.get_attr(cl_element, 'name'),
-            changes=extract_change_data(cl_element),
+            changes=_extract_change_data(cl_element),
             comment=xml_reader.get_attr_or(cl_element, 'comment', ''),
             is_default=xml_reader.read_bool_from(cl_element, 'default'),
         ) for cl_element in xml_reader.filter_by_tag(changelist_manager, 'list')
@@ -89,7 +89,7 @@ def _filter_project_dir(path_str: str | None) -> str:
     return path_str
 
 
-def extract_change_data(
+def _extract_change_data(
     list_element: Element,
 ) -> list[FileChange]:
     """

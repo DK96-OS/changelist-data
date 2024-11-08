@@ -7,11 +7,10 @@ from changelist_data.xml import xml_reader
 
 
 def read_xml(changelists_xml: str) -> list[Changelist]:
-    """
-    Parse the Changelists Data XML file and return all ChangeLists in a list.
+    """ Process Changelists XML data into a list of Changelist data.
 
     Parameters:
-    - changelists_data (str): The contents of the Changelists file, in xml format.
+    - changelists_xml (str): The Changelists data in xml format.
     
     Returns:
     list[ChangelistData] - The list of Changelists.
@@ -24,11 +23,14 @@ def read_xml(changelists_xml: str) -> list[Changelist]:
 def parse_xml(changelists_xml: str) -> Element:
     """ Parse an XML File. This should be a Changelists XML file.
 
-        Returns:
-        Element - the XML Root Element
+    Parameters:
+    - changelists_xml (str): The Changelists data in xml format.
 
-        Raises:
-        SystemExit - if the xml could not be parsed.
+    Returns:
+    Element - the XML Root Element
+
+    Raises:
+    SystemExit - if the xml could not be parsed.
     """
     try:
         return fromstring(changelists_xml)

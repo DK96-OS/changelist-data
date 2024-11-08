@@ -2,46 +2,34 @@
 """
 from pathlib import Path
 
+from changelist_data.storage import storage_type
+from changelist_data.storage.storage_type import StorageType
+
 
 CHANGELISTS_FILE_PATH_STR = '.changelists/data.xml'
 WORKSPACE_FILE_PATH_STR = '.idea/workspace.xml'
 
 
-def _determine_if_file_exists(
-    path: Path | None,
-    default_path: Path,
+def file_exists(path: Path) -> bool:
+    """ Determines if Path exists and is_file.
+    """
+    return path.exists() and path.is_file()
+
+
+def check_if_default_file_exists(
+    option: StorageType,
 ) -> Path | None:
-    """ Returns Path only if Storage File Exists.
+    """ Return the Path to the default file for this storage option iff it exists.
+
+    Parameters:
+    - option (StorageType): The StorageType option to check.
+
+    Returns:
+    Path | None - The Path to the Default Storage File, or None if the path is not a file that exists.
     """
-    if path is None:
-        if default_path.exists() and default_path.is_file():
-            return default_path
-    elif path.exists() and path.is_file():
-        return path
+    if file_exists(file_path := storage_type.get_default_path(option)):
+        return file_path
     return None
-
-
-def find_changelists_storage(cl_path: Path | None = None) -> Path | None:
-    """ Returns Path only if Changelists Storage File Exists.
-    """
-    return _determine_if_file_exists(cl_path, Path(CHANGELISTS_FILE_PATH_STR))
-
-
-def find_workspace_storage(workspace_path: Path | None = None) -> Path | None:
-    """ Returns Path only if Workspace Storage File Exists.
-    """
-    return _determine_if_file_exists(workspace_path, Path(WORKSPACE_FILE_PATH_STR))
-
-
-def get_default_file_path() -> Path:
-    """ Searches for Changelists, then Workspace.
-        If neither is found, returns path to Changelists Data, but does not create the file.
-    """
-    if (cl_path := find_changelists_storage(None)) is not None:
-        return cl_path
-    if (ws_path := find_workspace_storage(None)) is not None:
-        return ws_path
-    return Path(CHANGELISTS_FILE_PATH_STR)
 
 
 def validate_file_input_text(file_path: Path) -> str:

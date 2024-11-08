@@ -5,6 +5,11 @@ from changelist_data.xml.changelists import changelists_reader
 from changelist_data.xml.changelists.changelists_tree import ChangelistsTree
 
 
+EMPTY_CHANGELISTS_DATA = """<?xml version="1.0" encoding="UTF-8"?>
+<changelists>
+</changelists>"""
+
+
 def read_xml(
     changelists_xml: str
 ) -> list[Changelist]:
@@ -20,7 +25,7 @@ def read_xml(
     return changelists_reader.read_xml(changelists_xml)
 
 
-def load_tree(
+def load_xml(
     changelists_xml: str
 ) -> ChangelistsTree:
     """
@@ -41,7 +46,6 @@ def new_tree() -> ChangelistsTree:
     Returns:
     ChangelistsTree - An XML Tree changelists interface.
     """
-    new_tree = "<changelists></changelists>"
     return ChangelistsTree(
-        changelists_reader.parse_xml(new_tree)
+        changelists_reader.parse_xml(EMPTY_CHANGELISTS_DATA)
     )

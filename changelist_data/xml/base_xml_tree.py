@@ -15,7 +15,7 @@ class BaseXMLTree(metaclass=ABCMeta):
 
     def write_tree(
         self, path: Path,
-    ) -> bool:
+    ):
         """
         Write the Tree as XML to the given Path.
         """
