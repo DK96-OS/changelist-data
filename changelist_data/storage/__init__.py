@@ -5,7 +5,7 @@ from pathlib import Path
 from changelist_data.changelist import Changelist
 from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
 from changelist_data.storage import file_validation, changelists_storage, workspace_storage
-from changelist_data.storage.storage_type import StorageType, get_default_path
+from changelist_data.storage.storage_type import StorageType
 from changelist_data.xml.changelists import ChangelistsTree, new_tree
 from changelist_data.xml.workspace import WorkspaceTree
 
