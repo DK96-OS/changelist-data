@@ -1,10 +1,10 @@
 """ The Options for Changelists data Storage.
 """
-from enum import StrEnum
+from enum import Enum
 from pathlib import Path
 
 
-class StorageType(StrEnum):
+class StorageType(Enum):
     CHANGELISTS = "changelists"
     WORKSPACE = "workspace"
 
