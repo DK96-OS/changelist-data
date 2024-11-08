@@ -25,6 +25,7 @@ def test_read_file_no_cl_raises_exit(temp_file):
     temp_file.write_text(provider.get_no_changelist_xml())
     try:
         result = workspace_storage.read_file(temp_file)
+        assert len(result) == 0
         raises_exit = False
     except SystemExit:
         raises_exit = True
