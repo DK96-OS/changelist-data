@@ -6,20 +6,6 @@ from changelist_data.file_change import FileChange
 from changelist_data.xml import xml_reader
 
 
-def read_xml(changelists_xml: str) -> list[Changelist]:
-    """ Process Changelists XML data into a list of Changelist data.
-
-    Parameters:
-    - changelists_xml (str): The Changelists data in xml format.
-    
-    Returns:
-    list[ChangelistData] - The list of Changelists.
-    """
-    if (cl_manager := find_changelists_root(parse_xml(changelists_xml))) is None:
-        exit("Changelists tag was not found in the xml file.")
-    return extract_list_elements(cl_manager)
-
-
 def parse_xml(changelists_xml: str) -> Element:
     """ Parse an XML File. This should be a Changelists XML file.
 

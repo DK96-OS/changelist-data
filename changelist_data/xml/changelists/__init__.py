@@ -22,7 +22,9 @@ def read_xml(
     Returns:
     list[Changelist] - The list of Changelist objects in the ChangeLists file.
     """
-    return changelists_reader.read_xml(changelists_xml)
+    if (cl_manager := changelists_reader.find_changelists_root(changelists_reader.parse_xml(changelists_xml))) is None:
+        exit("Changelists tag was not found in the xml file.")
+    return changelists_reader.extract_list_elements(cl_manager)
 
 
 def load_xml(

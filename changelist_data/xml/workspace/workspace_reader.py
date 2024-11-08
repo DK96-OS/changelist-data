@@ -7,25 +7,6 @@ from changelist_data.changelist import Changelist
 from changelist_data.xml import xml_reader
 
 
-def read_xml(
-    workspace_xml: str
-) -> list[Changelist]:
-    """
-    Parse the Workspace XML file and obtain all ChangeList Data in a list.
-
-    Parameters:
-    - workspace_xml (str): The contents of the Workspace file, in xml format.
-    
-    Returns:
-    list[Changelist] - The list of Changelists in the workspace file.
-    """
-    if (cl_manager := find_changelist_manager(parse_xml(workspace_xml))) is None:
-        exit("ChangeList Manager was not found in the workspace file.")
-    if len(cl_elements := extract_list_elements(cl_manager)) < 1:
-        exit("No Changelists were found!")
-    return cl_elements
-
-
 def parse_xml(workspace_xml: str) -> Element:
     """ Parse an XML File. This should be a Workspace XML file.
         Returns the XML Root Element, or raises SystemExit.
