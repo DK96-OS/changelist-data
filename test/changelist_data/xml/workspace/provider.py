@@ -11,6 +11,17 @@ def get_no_changelist_xml() -> str:
 </project>"""
 
 
+def get_empty_changelist_xml() -> str:
+    return """<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+  </component>
+</project>"""
+
+
 def get_simple_changelist_xml() -> str:
     return """<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">

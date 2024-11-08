@@ -8,13 +8,13 @@ from test.changelist_data.xml.workspace import provider
 
 
 def get_simple_ws_tree():
-    return workspace.load_tree(provider.get_simple_changelist_xml())
+    return workspace.load_xml(provider.get_simple_changelist_xml())
 
 def get_multi_ws_tree():
-    return workspace.load_tree(provider.get_multi_changelist_xml())
+    return workspace.load_xml(provider.get_multi_changelist_xml())
 
 def get_no_cl_ws_tree():
-    return workspace.load_tree(provider.get_no_changelist_xml())
+    return workspace.load_xml(provider.get_no_changelist_xml())
 
 
 def test_extract_list_elements_simple_returns_list():

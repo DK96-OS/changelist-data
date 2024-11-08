@@ -1,10 +1,12 @@
 """ Testing the ChangelistsTree Class.
 """
 from xml.etree.ElementTree import fromstring
+
 from changelist_data.changelist import Changelist
 from changelist_data.xml import changelists
 from changelist_data.xml.changelists.changelists_tree import ChangelistsTree
 from test.changelist_data.xml.changelists.provider import get_simple_changelist_xml, get_multi_changelist_xml, get_no_changelist_xml
+
 
 def get_simple_ct_tree():
     return ChangelistsTree(fromstring(get_simple_changelist_xml()))
@@ -75,6 +77,6 @@ def test_update_changelists_simple_with_multi():
 
 
 def test_changelists_tree_no_changelists_tag_returns_empty_list():
-    tree = changelists.load_tree(get_no_changelist_xml())
+    tree = changelists.load_xml(get_no_changelist_xml())
     result = tree.get_changelists()
     assert len(result) == 0

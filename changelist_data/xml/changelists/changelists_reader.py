@@ -17,10 +17,8 @@ def read_xml(changelists_xml: str) -> list[Changelist]:
     list[ChangelistData] - The list of Changelists.
     """
     if (cl_manager := find_changelists_root(parse_xml(changelists_xml))) is None:
-        exit("ChangeList Manager was not found in the workspace file.")
-    if len(cl_elements := extract_list_elements(cl_manager)) < 1:
-        exit("No Changelists were found!")
-    return cl_elements
+        exit("Changelists tag was not found in the xml file.")
+    return extract_list_elements(cl_manager)
 
 
 def parse_xml(changelists_xml: str) -> Element:

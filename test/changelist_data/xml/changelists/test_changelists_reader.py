@@ -14,13 +14,9 @@ def test_read_xml_empty_string_raises_exit():
     assert raises_exit
 
 
-def test_read_xml_no_cl_raises_exit():
-    try:
-        read_xml(get_no_changelist_xml())
-        raises_exit = False
-    except SystemExit:
-        raises_exit = True
-    assert raises_exit
+def test_read_xml_no_cl_returns_empty_list():
+    result = read_xml(get_no_changelist_xml())
+    assert len(result) == 0
 
     
 def test_read_xml_simple_cl():

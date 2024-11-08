@@ -1,4 +1,4 @@
-""" Test Data Provider for Workspace XML Inputs.
+""" Test Data Provider for Changelists XML Inputs.
 """
 
 

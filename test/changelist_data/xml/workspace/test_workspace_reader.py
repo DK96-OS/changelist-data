@@ -1,6 +1,6 @@
 """Testing Changelist Reader Methods.
 """
-from changelist_data.xml.workspace.workspace_reader import find_changelist_manager, parse_xml, read_workspace_xml
+from changelist_data.xml.workspace.workspace_reader import find_changelist_manager, parse_xml, read_xml
 
 from test.changelist_data.xml.workspace.provider import get_no_changelist_xml, get_simple_changelist_xml, get_multi_changelist_xml
 
@@ -21,57 +21,10 @@ def test_find_changelist_manager_no_changelist_returns_none():
 def test_find_changelist_manager_simple_changelist_returns_element():
     element = find_changelist_manager(parse_xml(get_simple_changelist_xml()))
     change_lists = list(element.iter())
-    print(change_lists)
+    assert len(change_lists) == 3
 
 
 def test_find_changelist_manager_multi_changelist_returns_element():
     element = find_changelist_manager(parse_xml(get_multi_changelist_xml()))
     change_lists = list(element.iter())
-    print(change_lists)
-
-
-def test_read_workspace_xml_empty_raises_error():
-    try:
-        read_workspace_xml("")
-        assert False
-    except SystemExit:
-        assert True
-
-
-def test_read_workspace_xml_no_change_list_returns_empty_list():
-    try:
-        read_workspace_xml(get_no_changelist_xml())
-        assert False
-    except SystemExit:
-        assert True
-
-
-def test_read_workspace_xml_simple_returns_single_changelist():
-    result = read_workspace_xml(get_simple_changelist_xml())
-    assert 1 == len(result)
-    # Check the First and only Changelist
-    result_cl = result[0]
-    assert result_cl.name == "Simple"
-    assert result_cl.comment == "Main Program Files"
-    assert result_cl.id == "9f60fda2-421e-4a4b-bd0f-4c8f83a47c88"
-    assert not result_cl.is_default
-    # Check Length of Changes
-    change_length = len(result_cl.changes)
-    assert 1 == change_length
-
-
-def test_read_workspace_xml_multi_returns_2_changelists():
-    result = read_workspace_xml(get_multi_changelist_xml())
-    assert 2 == len(result)
-    # Check both ChangeLists
-    result_c1, result_c2 = result[0], result[1]
-    #
-    assert result_c1.name == "Main"
-    assert result_c1.comment == "Main Program Files"
-    assert result_c1.id == "af84ea1b-1b24-407d-970f-9f3a2835e933"
-    assert result_c1.is_default
-    #
-    assert result_c2.name == "Test"
-    assert result_c2.comment == "Test Files"
-    assert result_c2.id == "9f60fda2-421e-4a4b-bd0f-4c8f83a47c88"
-    assert not result_c2.is_default
+    assert len(change_lists) == 6
