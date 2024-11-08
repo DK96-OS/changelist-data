@@ -1,6 +1,6 @@
 """Testing Changelist Reader Methods.
 """
-from changelist_data.xml.workspace.workspace_reader import find_changelist_manager, parse_xml, read_xml
+from changelist_data.xml.workspace.workspace_reader import find_changelist_manager, parse_xml
 
 from test.changelist_data.xml.workspace.provider import get_no_changelist_xml, get_simple_changelist_xml, get_multi_changelist_xml
 

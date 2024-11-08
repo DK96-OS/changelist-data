@@ -4,6 +4,7 @@ from xml.etree.ElementTree import fromstring
 from changelist_data.changelist import Changelist
 from changelist_data.xml import workspace
 from changelist_data.xml.workspace.workspace_tree import WorkspaceTree
+from test.changelist_data.provider import get_module_test_change_data, get_module_src_change_data
 from test.changelist_data.xml.workspace import provider
 
 
@@ -67,12 +68,12 @@ def test_replace_changelists_simple_with_multi():
         Changelist(
             id='af84ea1b',
             name='Main',
-            changes=[],
+            changes=[get_module_src_change_data()],
         ),
         Changelist(
             id='9f60fda2',
             name='Test',
-            changes=[],
+            changes=[get_module_test_change_data()],
         ),
     ])
     # Get Elements

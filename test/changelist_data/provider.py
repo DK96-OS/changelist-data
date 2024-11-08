@@ -1,5 +1,6 @@
 """ Test Data Provider
 """
+from changelist_data.changelist import Changelist
 from changelist_data.file_change import FileChange
 
 
@@ -56,3 +57,22 @@ def get_github_workflows_change_data() -> FileChange:
 def get_github_dependabot_change_data() -> FileChange:
     return get_change_data(GITHUB_DEPENDABOT_PATH)
 
+
+def get_cl0():
+    return Changelist(
+        id="0",
+        name="",
+        changes=list(),
+    )
+
+def get_cl1():
+    return Changelist(
+        id="1212434",
+        name="ChangeList",
+        changes=[
+            FileChange(
+                after_path="/module/file.txt",
+                after_dir=False,
+            )
+        ],
+    )

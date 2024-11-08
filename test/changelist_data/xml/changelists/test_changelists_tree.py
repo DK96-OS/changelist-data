@@ -5,6 +5,7 @@ from xml.etree.ElementTree import fromstring
 from changelist_data.changelist import Changelist
 from changelist_data.xml import changelists
 from changelist_data.xml.changelists.changelists_tree import ChangelistsTree
+from test.changelist_data.provider import get_module_src_change_data, get_module_test_change_data
 from test.changelist_data.xml.changelists.provider import get_simple_changelist_xml, get_multi_changelist_xml, get_no_changelist_xml
 
 
@@ -64,12 +65,12 @@ def test_update_changelists_simple_with_multi():
         Changelist(
             id='af84ea1b',
             name='Main',
-            changes=[],
+            changes=[get_module_src_change_data()],
         ),
         Changelist(
             id='9f60fda2',
             name='Test',
-            changes=[],
+            changes=[get_module_test_change_data()],
         )
     ])
     result = ct_tree.get_changelists()

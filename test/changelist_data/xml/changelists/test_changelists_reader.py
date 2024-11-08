@@ -1,6 +1,6 @@
 """ Testing Changelists Reader.
 """
-from changelist_data.xml.changelists.changelists_reader import read_xml
+from changelist_data.xml.changelists import read_xml
 from test.changelist_data.xml.changelists.provider import get_simple_changelist_xml, get_no_changelist_xml, \
     get_multi_changelist_xml
 
