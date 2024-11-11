@@ -3,11 +3,11 @@
 from xml.etree.ElementTree import Element, ElementTree, indent
 
 from changelist_data.changelist import Changelist
+from changelist_data.xml.base_xml_tree import BaseXMLTree
 from changelist_data.xml.workspace import workspace_writer, workspace_reader
-from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
 
 
-class WorkspaceTree(ChangelistDataStorage):
+class WorkspaceTree(BaseXMLTree):
     """
     Manages the Workspace XML Element Trees.
 

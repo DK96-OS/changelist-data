@@ -1,12 +1,13 @@
 """ XML Tree Class for Changelists Data XML.
 """
 from xml.etree.ElementTree import Element, ElementTree, indent
+
 from changelist_data.changelist import Changelist
-from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
+from changelist_data.xml.base_xml_tree import BaseXMLTree
 from changelist_data.xml.changelists import changelists_reader, changelists_writer
 
 
-class ChangelistsTree(ChangelistDataStorage):
+class ChangelistsTree(BaseXMLTree):
     """
     Manages the Changelists Data XML Element Trees.
 
