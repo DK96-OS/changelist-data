@@ -7,9 +7,10 @@ from unittest.mock import Mock
 import pytest
 
 import changelist_data.xml.changelists
-from changelist_data.storage import read_storage, load_storage, StorageType
-from changelist_data.xml.changelists import ChangelistsTree
-from changelist_data.xml.workspace import WorkspaceTree
+from changelist_data.storage import read_storage, load_storage
+from changelist_data.storage.storage_type import StorageType
+from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
+
 from test.changelist_data.xml.changelists import provider as changelists_provider
 from test.changelist_data.xml.workspace import provider as workspace_provider
 
@@ -161,7 +162,7 @@ def test_load_storage_workspace_empty_file_raises_exit(temp_file):
 def test_load_storage_changelists_no_changelists_returns_empty_storage(temp_file):
     temp_file.write_text(changelist_data.xml.changelists.EMPTY_CHANGELISTS_DATA)
     result = load_storage(StorageType.CHANGELISTS, temp_file)
-    assert isinstance(result, ChangelistsTree)
+    assert isinstance(result, ChangelistDataStorage)
     assert len(result.get_changelists()) == 0
 
 
@@ -169,7 +170,7 @@ def test_load_storage_workspace_no_cl_manager_raises_exit(temp_file):
     temp_file.write_text(workspace_provider.get_no_changelist_xml())
     try:
         result = load_storage(StorageType.WORKSPACE, temp_file)
-        assert isinstance(result, WorkspaceTree)
+        assert isinstance(result, ChangelistDataStorage)
         assert len(result.get_changelists()) == 0
         raises_exit = False
     except SystemExit:
@@ -180,7 +181,7 @@ def test_load_storage_workspace_no_cl_manager_raises_exit(temp_file):
 def test_load_storage_workspace_empty_changelists_returns_empty_storage(temp_file):
     temp_file.write_text(workspace_provider.get_empty_changelist_xml())
     result = load_storage(StorageType.WORKSPACE, temp_file)
-    assert isinstance(result, WorkspaceTree)
+    assert isinstance(result, ChangelistDataStorage)
     assert len(result.get_changelists()) == 0
 
 
