@@ -217,8 +217,8 @@ def test_load_storage_none_changelists_simple_cl_returns_simple_list():
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: changelists_provider.get_simple_changelist_xml())
-        result = read_storage(None)
-    assert len(result) == 1
+        result = load_storage(None)
+    assert len(result.get_changelists()) == 1
 
 
 def test_load_storage_none_workspace_simple_cl_raises_exit():
@@ -234,8 +234,8 @@ def test_load_storage_none_workspace_simple_cl_raises_exit():
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: workspace_provider.get_simple_changelist_xml())
         try:
-            result = read_storage(None)
-            assert len(result) == 1
+            result = load_storage(None)
+            assert len(result.get_changelists()) == 1
             raises_exit = False
         except SystemExit:
             raises_exit = True
@@ -244,8 +244,8 @@ def test_load_storage_none_workspace_simple_cl_raises_exit():
 
 def test_load_storage_none_with_file_path_raises_exit(temp_file):
     try:
-        result = read_storage(None, temp_file)
-        assert len(result) == 1
+        result = load_storage(None, temp_file)
+        assert len(result.get_changelists()) == 1
         raises_exit = False
     except SystemExit:
         raises_exit = True
