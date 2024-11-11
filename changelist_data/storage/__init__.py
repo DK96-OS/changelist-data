@@ -3,11 +3,10 @@
 from pathlib import Path
 
 from changelist_data.changelist import Changelist
-from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
 from changelist_data.storage import file_validation, changelists_storage, workspace_storage
-from changelist_data.storage.storage_type import StorageType
-from changelist_data.xml.changelists import ChangelistsTree, new_tree
-from changelist_data.xml.workspace import WorkspaceTree
+from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
+from changelist_data.storage.storage_type import StorageType, get_default_path
+from changelist_data.xml.changelists import new_tree
 
 
 def read_storage(
@@ -63,8 +62,12 @@ def load_storage(
                 return _load_option(StorageType(opts), storage_path)
     elif (storage_path := file_validation.check_if_default_file_exists(option)) is not None:
         return _load_option(option, storage_path)
-    # Create an empty Changelists Storage Tree
-    return new_tree()
+    # Create an empty Changelists Storage Tree with a default path
+    return ChangelistDataStorage(
+        new_tree(),
+        StorageType.CHANGELISTS,
+        get_default_path(StorageType.CHANGELISTS)
+    )
 
 
 def _read_option(
@@ -81,9 +84,17 @@ def _read_option(
 def _load_option(
     option: StorageType,
     path: Path
-) -> ChangelistsTree | WorkspaceTree:
+) -> ChangelistDataStorage:
     if option == StorageType.CHANGELISTS:
-        return changelists_storage.load_file(path)
+        return ChangelistDataStorage(
+            changelists_storage.load_file(path),
+            option,
+            path
+        )
     if option == StorageType.WORKSPACE:
-        return workspace_storage.load_file(path)
+        return ChangelistDataStorage(
+            workspace_storage.load_file(path),
+            option,
+            path
+        )
     raise ValueError("Invalid Storage Option")

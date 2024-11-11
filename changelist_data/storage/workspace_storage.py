@@ -5,7 +5,7 @@ from pathlib import Path
 from changelist_data.changelist import Changelist
 from changelist_data.storage import file_validation, storage_type
 from changelist_data.storage.storage_type import StorageType
-from changelist_data.xml import workspace
+from changelist_data.xml.workspace import read_xml, load_xml
 from changelist_data.xml.workspace.workspace_tree import WorkspaceTree
 
 
@@ -21,7 +21,7 @@ def read_file(
     Returns:
     list[Changelist] - The list of Changelist data stored in Workspace Storage.
     """
-    return workspace.read_xml(
+    return read_xml(
         file_validation.validate_file_input_text(file_path)
     )
 
@@ -39,7 +39,7 @@ def load_file(
     """
     if file_path is None:
         exit("Only use Workspace Tree if a Workspace XML file has been given to you.")
-    return workspace.load_xml(
+    return load_xml(
         file_validation.validate_file_input_text(file_path)
     )
 
