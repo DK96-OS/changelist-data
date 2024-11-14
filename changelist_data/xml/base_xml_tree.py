@@ -36,7 +36,7 @@ class BaseXMLTree(metaclass=ABCMeta):
         bool - True if data was written to the file.
         """
         if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
+            path.parent.mkdir(parents=True, exist_ok=True)
             path.touch()
         return path.write_bytes(
             tostring(
