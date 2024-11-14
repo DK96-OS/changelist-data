@@ -131,7 +131,7 @@ def test_write_file_multi_cl(temp_file):
 
 
 def test_write_file_empty_default_changelist(temp_file):
-    temp_file.write_text(provider.get_multi_changelist_xml())
+    temp_file.write_text('')
     #
     tree = changelists_storage.load_file(
         storage_type.get_default_path(StorageType.CHANGELISTS)
@@ -139,4 +139,16 @@ def test_write_file_empty_default_changelist(temp_file):
     changelists_storage.write_file(tree, temp_file)
     # Read from Temp
     result = changelists_storage.read_file(temp_file)
+    assert len(result) == 0
+
+
+def test_write_file_new_tree_empty():
+    tree = new_tree()
+    tree.write_tree(
+        storage_type.get_default_path(StorageType.CHANGELISTS)
+    )
+    # Read from File
+    result = changelists_storage.read_file(
+        storage_type.get_default_path(StorageType.CHANGELISTS)
+    )
     assert len(result) == 0
