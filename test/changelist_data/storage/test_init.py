@@ -10,7 +10,6 @@ import changelist_data.xml.changelists
 from changelist_data.storage import read_storage, load_storage
 from changelist_data.storage.storage_type import StorageType
 from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
-from changelist_data.xml.changelists import new_tree
 
 from test.changelist_data.xml.changelists import provider as changelists_provider
 from test.changelist_data.xml.workspace import provider as workspace_provider

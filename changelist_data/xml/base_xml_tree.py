@@ -13,15 +13,15 @@ class BaseXMLTree(metaclass=ABCMeta):
 
     @abstractmethod
     def get_root(self) -> ElementTree:
-        raise NotImplemented
+        raise NotImplementedError
 
     @abstractmethod
     def get_changelists(self) -> list[Changelist]:
-        raise NotImplemented
+        raise NotImplementedError
 
     @abstractmethod
     def update_changelists(self, changelists: list[Changelist]):
-        raise NotImplemented
+        raise NotImplementedError
 
     def write_tree(
         self, path: Path,
