@@ -10,6 +10,7 @@ import changelist_data.xml.changelists
 from changelist_data.storage import read_storage, load_storage
 from changelist_data.storage.storage_type import StorageType
 from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
+from changelist_data.xml.changelists import new_tree
 
 from test.changelist_data.xml.changelists import provider as changelists_provider
 from test.changelist_data.xml.workspace import provider as workspace_provider
@@ -139,14 +140,20 @@ def test_read_storage_workspace_multi_cl_returns_list():
     assert len(result) == 2
 
 
-def test_load_storage_changelists_empty_file_raises_exit(temp_file):
+def test_load_storage_changelists_empty_file_returns_new_tree(temp_file):
     temp_file.write_text("")
-    try:
-        load_storage(StorageType.CHANGELISTS, temp_file)
-        raised_exit = False
-    except SystemExit:
-        raised_exit = True
-    assert raised_exit
+    result = load_storage(StorageType.CHANGELISTS, temp_file)
+    #
+    assert isinstance(result, ChangelistDataStorage)
+    assert len(result.get_changelists()) == 0
+
+
+def test_load_storage_changelists_file_does_not_exist_returns_empty(temp_file):
+    temp_file.unlink(missing_ok=True)
+    result = load_storage(StorageType.CHANGELISTS, temp_file)
+    assert isinstance(result, ChangelistDataStorage)
+    assert result.storage_type == StorageType.CHANGELISTS
+    assert len(result.get_changelists()) == 0
 
 
 def test_load_storage_workspace_empty_file_raises_exit(temp_file):
