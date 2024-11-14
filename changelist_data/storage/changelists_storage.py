@@ -23,10 +23,10 @@ def read_file(
     list[Changelist] - The list of Changelist data stored in Changelists Storage.
     """
     if file_path is None:
-        return [] # Empty Changelists
-    return changelists.read_xml(
-        file_validation.validate_file_input_text(file_path)
-    )
+        return [] # None Path Given
+    if len(file_content := file_validation.validate_file_input_text(file_path)) == 0:
+        return [] # Empty Data File
+    return changelists.read_xml(file_content)
 
 
 def load_file(
@@ -45,9 +45,10 @@ def load_file(
         not file_validation.file_exists(file_path):
         return changelists.new_tree()
     # Validate File Stats, Read and Parse the XML
-    return changelists.load_xml(
-        file_validation.validate_file_input_text(file_path)
-    )
+    if len(file_content := file_validation.validate_file_input_text(file_path)) == 0:
+        return changelists.new_tree() # Empty Data File
+    # Parse and wrap XML ElementTree in ChangelistsTree
+    return changelists.load_xml(file_content)
 
 
 def write_file(
