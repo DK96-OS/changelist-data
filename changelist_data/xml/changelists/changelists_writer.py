@@ -45,6 +45,7 @@ def _write_change_data(
 
     Parameters:
     - data (FileChange): The FileChange Data for a specific File.
+    - indent_level (int): The amount of indent to insert before this.
 
     Returns:
     str - A String containing the XML tag for this FileChange Data.
