@@ -46,6 +46,12 @@ def test_extract_list_elements_simple_clm_(simple_clm):
     elem = extract_list_elements(simple_clm)
     assert len(elem) == 1
     assert len(elem[0].changes) == 1
+    #
+    fc = elem[0].changes[0]
+    assert fc.before_path == '/main.py'
+    assert not fc.before_dir
+    assert fc.after_path == '/main.py'
+    assert not fc.after_dir
 
 
 def test_extract_list_elements_multi_clm_(multi_clm):
@@ -53,4 +59,21 @@ def test_extract_list_elements_multi_clm_(multi_clm):
     assert len(elem) == 2
     assert len(elem[0].changes) == 2
     assert len(elem[1].changes) == 1
-
+    # Main Changelist First Element
+    fc = elem[0].changes[0]
+    assert fc.before_path == '/history.py'
+    assert not fc.before_dir
+    assert fc.after_path is None
+    assert fc.after_dir is None
+    # Main Changelist Second Element
+    fc = elem[0].changes[1]
+    assert fc.before_path == '/main.py'
+    assert not fc.before_dir
+    assert fc.after_path is None
+    assert fc.after_dir is None
+    # Test Changelist First Element
+    fc = elem[1].changes[0]
+    assert fc.before_path is None
+    assert fc.before_dir is None
+    assert fc.after_path == '/test/test_file.py'
+    assert not fc.after_dir
