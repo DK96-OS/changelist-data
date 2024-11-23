@@ -1,38 +1,10 @@
 """ Testing Workspace Writer
 """
-import pytest
-
 from changelist_data.file_change import FileChange
 from changelist_data.xml.workspace import workspace_reader
 from changelist_data.xml.workspace.workspace_writer import _write_change_data
 
-from test.changelist_data import provider
-
-
-@pytest.fixture()
-def fc_all():
-    return FileChange(
-        before_path=provider.MODULE_SRC_PATH,
-        after_path=provider.MODULE_SRC_PATH,
-        before_dir=False,
-        after_dir=False
-    )
-
-
-@pytest.fixture()
-def fc_before():
-    return FileChange(
-        before_path=provider.MODULE_SRC_PATH,
-        before_dir=False,
-    )
-
-
-@pytest.fixture()
-def fc_after():
-    return FileChange(
-        after_path=provider.MODULE_SRC_PATH,
-        after_dir=False
-    )
+from test.changelist_data.provider import fc_all, fc_before, fc_after
 
 
 def test_write_change_data_with_no_fields():

@@ -1,8 +1,9 @@
 """ Test Data Provider
 """
+import pytest
+
 from changelist_data.changelist import Changelist
 from changelist_data.file_change import FileChange
-
 
 MODULE_SRC_PATH = '/module/src/main/java/module/Main.java'
 MODULE_TEST_PATH = '/module/src/test/java/module/MainTest.java'
@@ -58,12 +59,39 @@ def get_github_dependabot_change_data() -> FileChange:
     return get_change_data(GITHUB_DEPENDABOT_PATH)
 
 
+@pytest.fixture()
+def fc_all():
+    return FileChange(
+        before_path=MODULE_SRC_PATH,
+        after_path=MODULE_SRC_PATH,
+        before_dir=False,
+        after_dir=False
+    )
+
+
+@pytest.fixture()
+def fc_before():
+    return FileChange(
+        before_path=MODULE_SRC_PATH,
+        before_dir=False,
+    )
+
+
+@pytest.fixture()
+def fc_after():
+    return FileChange(
+        after_path=MODULE_SRC_PATH,
+        after_dir=False
+    )
+
+
 def get_cl0():
     return Changelist(
         id="0",
         name="",
         changes=list(),
     )
+
 
 def get_cl1():
     return Changelist(
