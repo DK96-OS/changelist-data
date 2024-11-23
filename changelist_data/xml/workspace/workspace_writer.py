@@ -52,11 +52,11 @@ def _write_change_data(
     """
     change = Element('change')
     if data.before_path is not None:
-        change.set('beforePath', workspace_reader._PROJECT_DIR_VAR + '/' + data.before_path)
+        change.set('beforePath', workspace_reader._PROJECT_DIR_VAR + data.before_path)
     if data.before_dir is not None:
         change.set('beforeDir', str(data.before_dir).lower())
     if data.after_path is not None:
-        change.set('afterPath',workspace_reader._PROJECT_DIR_VAR + '/' + data.after_path)
+        change.set('afterPath',workspace_reader._PROJECT_DIR_VAR + data.after_path)
     if data.after_dir is not None:
         change.set('afterDir', str(data.after_dir).lower())
     #
