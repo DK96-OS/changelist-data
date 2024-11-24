@@ -4,17 +4,15 @@ import pytest
 
 from changelist_data.xml.workspace.workspace_reader import find_changelist_manager, parse_xml, extract_list_elements
 
-from test.changelist_data.xml.workspace.provider import get_no_changelist_xml, get_simple_changelist_xml, get_multi_changelist_xml
+
+@pytest.fixture()
+def simple_clm(simple_workspace_xml):
+    return find_changelist_manager(parse_xml(simple_workspace_xml))
 
 
 @pytest.fixture()
-def simple_clm():
-    return find_changelist_manager(parse_xml(get_simple_changelist_xml()))
-
-
-@pytest.fixture()
-def multi_clm():
-    return find_changelist_manager(parse_xml(get_multi_changelist_xml()))
+def multi_clm(multi_workspace_xml):
+    return find_changelist_manager(parse_xml(multi_workspace_xml))
 
 
 def test_find_changelist_manager_empty_xml_raises_exit():
@@ -26,54 +24,27 @@ def test_find_changelist_manager_empty_xml_raises_exit():
     assert raises_exit
 
 
-def test_find_changelist_manager_no_changelist_returns_none():
-    assert find_changelist_manager(parse_xml(get_no_changelist_xml())) is None
+def test_find_changelist_manager_no_changelist_returns_none(no_clm_workspace_xml):
+    assert find_changelist_manager(parse_xml(no_clm_workspace_xml)) is None
 
 
-def test_find_changelist_manager_simple_changelist_returns_element():
-    element = find_changelist_manager(parse_xml(get_simple_changelist_xml()))
+def test_find_changelist_manager_simple_changelist_returns_element(simple_workspace_xml):
+    element = find_changelist_manager(parse_xml(simple_workspace_xml))
     change_lists = list(element.iter())
     assert len(change_lists) == 3
 
 
-def test_find_changelist_manager_multi_changelist_returns_element():
-    element = find_changelist_manager(parse_xml(get_multi_changelist_xml()))
+def test_find_changelist_manager_multi_changelist_returns_element(multi_workspace_xml):
+    element = find_changelist_manager(parse_xml(multi_workspace_xml))
     change_lists = list(element.iter())
     assert len(change_lists) == 6
 
 
-def test_extract_list_elements_simple_clm_(simple_clm):
+def test_extract_list_elements_simple_clm_(simple_clm, simple_cl):
     elem = extract_list_elements(simple_clm)
     assert len(elem) == 1
-    assert len(elem[0].changes) == 1
-    #
-    fc = elem[0].changes[0]
-    assert fc.before_path == '/main.py'
-    assert not fc.before_dir
-    assert fc.after_path == '/main.py'
-    assert not fc.after_dir
+    assert simple_cl == elem[0]
 
 
-def test_extract_list_elements_multi_clm_(multi_clm):
-    elem = extract_list_elements(multi_clm)
-    assert len(elem) == 2
-    assert len(elem[0].changes) == 2
-    assert len(elem[1].changes) == 1
-    # Main Changelist First Element
-    fc = elem[0].changes[0]
-    assert fc.before_path == '/history.py'
-    assert not fc.before_dir
-    assert fc.after_path is None
-    assert fc.after_dir is None
-    # Main Changelist Second Element
-    fc = elem[0].changes[1]
-    assert fc.before_path == '/main.py'
-    assert not fc.before_dir
-    assert fc.after_path is None
-    assert fc.after_dir is None
-    # Test Changelist First Element
-    fc = elem[1].changes[0]
-    assert fc.before_path is None
-    assert fc.before_dir is None
-    assert fc.after_path == '/test/test_file.py'
-    assert not fc.after_dir
+def test_extract_list_elements_multi_clm_(multi_clm, multi_cl_list):
+    assert multi_cl_list == extract_list_elements(multi_clm)

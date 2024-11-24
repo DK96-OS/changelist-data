@@ -2,9 +2,7 @@
 """
 from changelist_data.file_change import FileChange
 from changelist_data.xml.workspace import workspace_reader
-from changelist_data.xml.workspace.workspace_writer import _write_change_data
-
-from test.changelist_data.provider import fc_all, fc_before, fc_after
+from changelist_data.xml.workspace.workspace_writer import _write_change_data, write_list_element
 
 
 def test_write_change_data_with_no_fields():
@@ -38,3 +36,17 @@ def test_write_change_data_with_after_fields(fc_after):
     assert element.get('afterPath') == f'{workspace_reader._PROJECT_DIR_VAR}{fc_after.after_path}'
     assert element.get('afterDir') == 'false'
     assert element.get('beforeDir') is None
+
+
+def test_write_list_element_simple_returns(simple_cl):
+    result = write_list_element(simple_cl, 2)
+    assert result.tag == 'list'
+
+
+def test_write_list_element_multi_returns(multi_cl_list):
+    result0 = write_list_element(multi_cl_list[0], 2)
+    result1 = write_list_element(multi_cl_list[1], 2)
+    assert result0.tag == 'list'
+    assert result1.tag == 'list'
+    assert len(list(result0.iter('change'))) == 2
+    assert len(list(result1.iter('change'))) == 1

@@ -1,26 +1,6 @@
 """ Testing the WorkspaceTree Class.
 """
 
-import pytest
-
-from changelist_data.xml import workspace
-from test.changelist_data.xml.workspace import provider
-
-
-@pytest.fixture()
-def simple_ws_tree():
-    return workspace.load_xml(provider.get_simple_changelist_xml())
-
-
-@pytest.fixture()
-def multi_ws_tree():
-    return workspace.load_xml(provider.get_multi_changelist_xml())
-
-
-@pytest.fixture()
-def no_clm_ws_tree():
-    return workspace.load_xml(provider.get_no_changelist_xml())
-
 
 def test_get_changelists_simple_returns_list(simple_ws_tree):
     result = simple_ws_tree.get_changelists()
@@ -71,18 +51,14 @@ def test_update_changelists_simple_with_multi(simple_ws_tree, multi_ws_tree):
     simple_ws_tree.update_changelists(
         multi_ws_tree.get_changelists()
     )
-    result = simple_ws_tree.get_changelists()
-    assert len(result) == 2
-    assert result == multi_ws_tree.get_changelists()
+    assert simple_ws_tree.get_changelists() == multi_ws_tree.get_changelists()
 
 
 def test_update_changelists_multi_with_simple(multi_ws_tree, simple_ws_tree):
     multi_ws_tree.update_changelists(
         simple_ws_tree.get_changelists()
     )
-    result = multi_ws_tree.get_changelists()
-    assert len(result) == 1
-    assert result == simple_ws_tree.get_changelists()
+    assert multi_ws_tree.get_changelists() == simple_ws_tree.get_changelists()
 
 
 def test_update_changelists_no_cl_manager_raises_exit(no_clm_ws_tree):
