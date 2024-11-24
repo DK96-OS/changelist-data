@@ -1,25 +1,8 @@
 """ Testing Changelist Data Storage Class and Methods.
 """
-import tempfile
-from pathlib import Path
-import pytest
-
 import changelist_data.xml.changelists
 from changelist_data.changelist import Changelist
 from changelist_data.storage import StorageType, ChangelistDataStorage, load_storage
-
-
-@pytest.fixture
-def temp_dir():
-    dir = tempfile.TemporaryDirectory()
-    yield dir
-    dir.cleanup()
-
-
-@pytest.fixture
-def temp_file(temp_dir):
-    file = temp_dir.name + "/test_xml.xml"
-    yield Path(file)
 
 
 def test_write_to_storage_changelists_file_does_not_exist_returns_true(temp_file):

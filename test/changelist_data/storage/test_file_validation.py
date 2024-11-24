@@ -2,11 +2,11 @@
 """
 from pathlib import Path
 from unittest.mock import Mock
+
 import pytest
 
 from changelist_data.storage import StorageType
 from changelist_data.storage.file_validation import validate_file_input_text, file_exists, check_if_default_file_exists
-from test.changelist_data.xml.changelists import provider
 
 
 def test_file_exists_does_not_exist_returns_false():
@@ -111,13 +111,13 @@ def test_validate_file_input_text_filesize_too_large_raises_exit():
         assert raises_exit
 
 
-def test_validate_file_input_text_simple_changelist_returns_str():
+def test_validate_file_input_text_simple_changelist_returns_str(simple_changelists_xml):
     with pytest.MonkeyPatch().context() as c:
         c.setattr(Path, 'exists', lambda _: True)
         c.setattr(Path, 'is_file', lambda _: True)
         obj = Mock()
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
-        c.setattr(Path, 'read_text', lambda _: provider.get_simple_changelist_xml())
+        c.setattr(Path, 'read_text', lambda _: simple_changelists_xml)
         simple_xml = validate_file_input_text(Path("file_name"))
-    assert len(simple_xml) == 240
+    assert len(simple_xml) == 259
