@@ -14,18 +14,26 @@ Each changelist tool must be compatible with both storage options. The goal of t
 #### Changelist Tools
 The Data Storage needs of the Changelist Tools:
 - Changelist Init
+    - Find & Update Existing Storage File
     - Create New Changelists File
-    - Find Existing Storage File
-    - Update Existing Storage File (with git status info)
 - ChangeList Sort
-    - Find Existing Storage File
-    - Load Existing Storage File
-    - Update Existing Storage File
+    - Find, Load & Update Existing Storage File
 - ChangeList FOCI
-    - Find Existing Storage File
-    - Read Existing Storage File
+    - Find & Read Existing Storage File
 
-### Data Structures
+## Package Structure
+Call the public methods of the appropriate package for the level of detail required.
+- `changelist_data/` contains shared data classes.
+- `changelist_data/storage/` contains storage methods for read and write access.
+- `changelist_data/xml/` contains some xml tree abstractions and modules.
+- `changelist_data/xml/changelists/` changelists data xml management.
+- `changelist_data/xml/workspace/` workspace xml management.
+
+### Changelist Data
+The highest level package does not import anything during initialization, or provide package level methods.
+It contains the common data classes shared by Changelist packages.
+
+#### Common Data Classes
 `class FileChange` : Individual Files
 - before_path: str | None = None
 - before_dir: bool | None = None
@@ -39,21 +47,11 @@ The Data Storage needs of the Changelist Tools:
 - comment: str = ""
 - is_default: bool = False
 
-## Package Structure
-Call the public methods of the appropriate package for the level of detail required.
-- `changelist_data/` contains high level methods with default options for accessing storage files
-- `changelist_data/storage/` contains storage option specific methods for read-only and writable access.
-- `changelist_data/xml/` contains some simple xml modules, and two subpackages.
-- `changelist_data/xml/changelists/` changelists data xml management.
-- `changelist_data/xml/workspace/` workspace xml management.
-
-### Changelist Data Storage Access Methods
-The highest level package should contain the highest level methods and modules.
-
-#### High Level Default Methods
-- `read_default() -> list[Changelist]`
-- `load_default() -> ChangelistDataStorage`
-- `write_tree(ChangelistDataStorage, Path) -> bool`
+### Storage Package
+This package contains modules for both workspace and changelist storage options.
+The storage option is passed in as an enum. Sensible default values are included.
+- `read_storage(StorageType, Path) -> list[Changelist]`
+- `load_storage(StorageType, Path) -> ChangelistsDataStorage`
 
 **Storage File Management**:
 - Find Existing Storage File and Read or Load it (Default is Changelists data xml)
@@ -67,15 +65,6 @@ The highest level package should contain the highest level methods and modules.
 **Loading Changelist Data Tree Structures**: 
 - Existing File is Loaded into one of the two Tree classes
 - Tree classes handle updates to the storage data file
-
-### Storage Package
-This package contains modules for both workspace and changelist storage options.
-Each option provides a reader and a tree loader.
-
-- `read_changelists_storage(Path) -> list[Changelist]`
-- `read_workspace_storage(Path) -> list[Changelist]`
-- `load_changelists_tree(Path) -> ChangelistsTree`
-- `load_workspace_tree(Path) -> WorkspaceTree`
 
 #### File Validation Module
 This module determines if a storage option is already in use (one of those files exists).
@@ -93,7 +82,7 @@ This package provides all the methods one may need for processing Changelists XM
 The `new_tree` method is a shortcut for creating a Changelists XML Tree.
 This is to be used when initializing changelist workflows for the first time in a project.
 
-#### XML Workspace Reader
+#### XML Workspace Package
 This package provides methods for processing Workspace XML.
 - `read_xml(workspace_xml: str) -> list[Changelist]`
 - `load_tree(workspace_xml: str) -> WorkspaceTree`
