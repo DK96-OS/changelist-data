@@ -22,11 +22,9 @@ def test_load_xml_no_cl_returns_new_tree(no_clm_workspace_xml):
     assert raises_exit
 
 
-def test_load_xml_simple_cl(simple_workspace_xml):
-    result = load_xml(simple_workspace_xml).get_changelists()
-    assert len(result) == 1
+def test_load_xml_simple_cl(simple_workspace_xml, simple_ws_tree):
+    assert simple_ws_tree.get_changelists() == load_xml(simple_workspace_xml).get_changelists()
 
 
-def test_load_xml_multi_cl(multi_workspace_xml):
-    result = load_xml(multi_workspace_xml).get_changelists()
-    assert len(result) == 2
+def test_load_xml_multi_cl(multi_workspace_xml, multi_ws_tree):
+    assert multi_ws_tree.get_changelists() == load_xml(multi_workspace_xml).get_changelists()
