@@ -30,7 +30,7 @@ jobs:
           pip install pytest pytest-cov==5.0.0
 
       - name: Run unit tests
-        run: pytest test/ --cov=changelist_data --cov-report=html --cov-fail-under=90
+        run: pytest test/ --cov=changelist_data --cov-report=html --cov-fail-under=93
 
       - name: Upload Test Coverage Reports
         if: always()
