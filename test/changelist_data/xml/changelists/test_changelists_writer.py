@@ -3,7 +3,7 @@
 from changelist_data.file_change import FileChange
 from changelist_data.xml.changelists.changelists_writer import _write_change_data
 
-from test.changelist_data.provider import fc_all, fc_before, fc_after, MODULE_SRC_PATH
+from test.changelist_data.conftest import MODULE_SRC_PATH
 
 
 def test_write_change_data_with_no_fields():
