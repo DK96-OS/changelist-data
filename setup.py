@@ -5,8 +5,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="changelist-data",
-    version="0.1.4",
-	description='Data Management base package for Changelists CLI Tools',
+    version="0.1.5",
+	description='Data package for Changelists CLI Tools',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
 	author='DK96-OS',
@@ -16,7 +16,7 @@ setup(
         "Source Code": "https://github.com/DK96-OS/changelist-data/"
 	},
 	license='GPLv3',
-    packages=find_packages(exclude=['test']),
+    packages=find_packages(exclude=['test', 'test.*']),
     entry_points={
         'console_scripts': [],
     },
