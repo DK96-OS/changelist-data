@@ -14,10 +14,10 @@ def read_storage(
     file_path: Path | None = None,
 ) -> list[Changelist]:
     """ Read Changelist Data from Storage into a List of Changelist data.
-        None values indicate that the storage file should be searched for using default values.
+        - None values indicate that the storage file should be searched for using default values.
 
     Parameters:
-    - option (StorageType | None): The Storage Type describing the XML format. Use None to search all StorageTypes in order.
+    - option (StorageType | None): The Storage Type describing the XML format. Search all StorageTypes in order by default.
     - file_path (Path | None): The file path to read from. Use None to look in default storage locations.
 
     Returns:
@@ -29,12 +29,23 @@ def read_storage(
         return _read_option(option, file_path)
     # Find and Read from Default File Paths
     if option is None:
-        for opts in StorageType:
-            if (storage_path := file_validation.check_if_default_file_exists(StorageType(opts))) is not None:
-                return _read_option(StorageType(opts), storage_path)
+        if (storage_result := read_any_storage_option()) is not None:
+            return storage_result
     elif (storage_path := file_validation.check_if_default_file_exists(option)) is not None:
         return _read_option(option, storage_path)
     return []
+
+
+def read_any_storage_option() -> list[Changelist] | None:
+    """ Check the default locations for all storage options.
+        - First checks Changelists, then Workspace locations.
+
+    Returns:
+    list[Changelist]? - The list of Changelist data objects read from the file, or None.
+    """
+    for opts in StorageType:
+        if (storage_path := file_validation.check_if_default_file_exists(StorageType(opts))) is not None:
+            return _read_option(StorageType(opts), storage_path)
 
 
 def load_storage(
@@ -57,9 +68,8 @@ def load_storage(
         return _load_option(option, file_path)
     # Find and Read from Default File Paths
     if option is None:
-        for opts in StorageType:
-            if (storage_path := file_validation.check_if_default_file_exists(StorageType(opts))) is not None:
-                return _load_option(StorageType(opts), storage_path)
+        if (storage_result := load_any_storage_option()) is not None:
+            return storage_result
     elif (storage_path := file_validation.check_if_default_file_exists(option)) is not None:
         return _load_option(option, storage_path)
     # Create an empty Changelists Storage Tree with a default path
@@ -68,6 +78,19 @@ def load_storage(
         StorageType.CHANGELISTS,
         get_default_path(StorageType.CHANGELISTS)
     )
+
+
+def load_any_storage_option() -> ChangelistDataStorage | None:
+    """ Check the default locations for all storage options.
+        - First checks Changelists, then Workspace locations.
+        - Returns None if no file is found.
+
+    Returns:
+    ChangelistDataStorage? - The data object providing a read and write interface for the storage file.
+    """
+    for opts in StorageType:
+        if (storage_path := file_validation.check_if_default_file_exists(StorageType(opts))) is not None:
+            return _load_option(StorageType(opts), storage_path)
 
 
 def _read_option(
