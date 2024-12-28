@@ -8,13 +8,15 @@ _ILLEGAL_FILESYSTEM_CHARS: tuple[str,...] = ('&', ';', '\0', '<', '>', '*', '?',
 
 def validate_string_argument(
     argument: str | None,
+    check_illegal_fs_chars: bool = True,
 ) -> bool:
     """ Determine whether an argument is a non-empty string.
         - Does not count whitespace.
         - Uses the strip method to remove empty space.
 
     Parameters:
-    - argument (str): The given argument.
+    - argument (str): The given argument to validate.
+    - check_illegal_fs_chars (bool): Whether to apply the Illegal Character filter. Default is True.
 
     Returns:
     bool - True if the argument qualifies as valid.
@@ -23,7 +25,9 @@ def validate_string_argument(
         return False
     elif len(simplified_arg := argument.strip()) < 1:
         return False
-    return not has_illegal_filesystem_chars(simplified_arg)
+    elif check_illegal_fs_chars:
+        return not has_illegal_filesystem_chars(simplified_arg)
+    return True
 
 
 def has_illegal_filesystem_chars(
