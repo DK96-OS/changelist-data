@@ -7,6 +7,9 @@ def is_collection(input_argument) -> bool:
     """ Determines whether the input argument is a collection.
         - Valid collections are either a list or a tuple.
 
+    Parameters:
+    - input_argument (list | tuple): The argument to check.
+
     Returns:
     bool - True when the argument is a list or a tuple.
     """
@@ -54,6 +57,9 @@ def execute_boolean_operation_concurrently(
     - input_collection (list | tuple): The collection to be split and operated on concurrently.
     - collection_operation (Callable): A callable that executes on a list, and returns the first True result.
     - num_concurrent_groups (int): The number of groups to split the collection into.
+
+    Returns:
+    bool - True if any element in the collection causes the operation to return true.
     """
     from concurrent.futures import ThreadPoolExecutor, as_completed
     #
