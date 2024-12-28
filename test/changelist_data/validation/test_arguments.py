@@ -56,11 +56,26 @@ def test_validate_string_argument_contains_illegal_chars_returns_false(input_str
     assert not validate_string_argument(input_string)
 
 
+@pytest.mark.parametrize("input_string", _PARAMS_CONTAINS_ILLEGAL_CHARS)
+def test_validate_string_argument_contains_illegal_chars_do_not_filter_illegal_chars_returns_true(input_string):
+    assert validate_string_argument(input_string, False)
+
+
 @pytest.mark.parametrize("input_string", _PARAMS_ONLY_VALID_CHARS)
 def test_validate_string_argument_only_valid_chars_returns_true(input_string):
     assert validate_string_argument(input_string)
 
 
+@pytest.mark.parametrize("input_string", _PARAMS_ONLY_VALID_CHARS)
+def test_validate_string_argument_only_valid_chars_do_not_filter_illegal_chars_returns_true(input_string):
+    assert validate_string_argument(input_string, False)
+
+
 @pytest.mark.parametrize("input_string", _PARAMS_BLANK_SPACE_INPUTS)
 def test_validate_string_argument_blank_space_combinations_returns_false(input_string):
     assert not validate_string_argument(input_string)
+
+
+@pytest.mark.parametrize("input_string", _PARAMS_BLANK_SPACE_INPUTS)
+def test_validate_string_argument_blank_space_combinations_do_not_filter_illegal_chars_returns_false(input_string):
+    assert not validate_string_argument(input_string, False)
