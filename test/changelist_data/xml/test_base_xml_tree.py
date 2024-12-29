@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from changelist_data.xml import changelists, workspace
+from changelist_data.xml.base_xml_tree import BaseXMLTree
 
 
 @pytest.fixture
@@ -43,3 +44,39 @@ def test_write_file_changelists_simple_cl(temp_file, simple_changelists_xml):
     # Read from File
     result = changelists.read_xml(temp_file.read_text())
     assert len(result) == 1
+
+
+def test_get_root_raises_not_implemented_error():
+    try:
+        base_xml_tree = BaseXMLTree()
+        base_xml_tree.get_root()
+        raised_error = False
+    except NotImplementedError:
+        raised_error = True
+    except TypeError:
+        raised_error = True
+    assert raised_error
+
+
+def test_get_changelists_raises_not_implemented_error():
+    try:
+        base_xml_tree = BaseXMLTree()
+        base_xml_tree.get_changelists()
+        raised_error = False
+    except NotImplementedError:
+        raised_error = True
+    except TypeError:
+        raised_error = True
+    assert raised_error
+
+
+def test_update_changelists_raises_not_implemented_error():
+    try:
+        base_xml_tree = BaseXMLTree()
+        base_xml_tree.update_changelists([])
+        raised_error = False
+    except NotImplementedError:
+        raised_error = True
+    except TypeError:
+        raised_error = True
+    assert raised_error
