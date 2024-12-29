@@ -35,7 +35,9 @@ def divide_collection(
     if not isinstance(num_groups, int) or num_groups <= 0:
         raise ValueError("Number of groups must be a positive integer")
     # Calculate the size of each group
-    group_size = len(input_collection) // num_groups
+    if num_groups > (collection_size := len(input_collection)):
+        num_groups = collection_size
+    group_size = 0 if 0 == num_groups else collection_size // num_groups
     # Generate smaller lists
     for i in range(num_groups):
         start_index = i * group_size
