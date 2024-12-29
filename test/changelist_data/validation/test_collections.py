@@ -113,10 +113,8 @@ def test_execute_boolean_operation_concurrently_element_length_over_4_returns_fa
     ("54","12","32","43","12734","43234","65"),
 ])
 def test_execute_boolean_operation_concurrently_element_length_over_4_returns_true(input_collection):
-    print(input_collection)
-    print(len(list(filter(lambda l: len(l) > 4, input_collection))))
     assert execute_boolean_operation_concurrently(
-        input_collection, lambda x: 0 < len(list(filter(lambda l: len(l) > 4, x))), 3
+        input_collection, lambda x: 0 < len(list(filter(lambda elem: len(elem) > 4, x))), 3
     )
 
 
@@ -128,7 +126,7 @@ def test_execute_boolean_operation_concurrently_element_length_over_4_returns_tr
 ])
 def test_execute_boolean_operation_concurrently_element_is_negative_returns_false(input_collection):
     assert not execute_boolean_operation_concurrently(
-        input_collection, lambda x: len(list(filter(lambda l: l < 0, x))) > 0, 3
+        input_collection, lambda x: len(list(filter(lambda elem: elem < 0, x))) > 0, 3
     )
 
 
@@ -141,5 +139,5 @@ def test_execute_boolean_operation_concurrently_element_is_negative_returns_fals
 ])
 def test_execute_boolean_operation_concurrently_element_is_negative_returns_true(input_collection):
     assert execute_boolean_operation_concurrently(
-        input_collection, lambda x: len(list(filter(lambda l: l < 0, x))) > 0, 3
+        input_collection, lambda x: len(list(filter(lambda elem: elem < 0, x))) > 0, 3
     )
