@@ -2,7 +2,8 @@
 """
 import pytest
 
-from changelist_data.validation.arguments import has_illegal_filesystem_chars, validate_string_argument
+from changelist_data.validation.arguments import has_illegal_filesystem_chars, validate_string_argument, \
+    has_illegal_filesystem_chars_concurrent
 
 
 _PARAMS_CONTAINS_ILLEGAL_CHARS = [
@@ -51,6 +52,14 @@ def test_has_illegal_filesystem_chars_blank_space_combinations_returns_false(inp
     assert not has_illegal_filesystem_chars(input_string)
 
 
+def test_validate_string_argument_none_returns_false():
+    assert not validate_string_argument(None)
+
+
+def test_validate_string_argument_int_returns_false():
+    assert not validate_string_argument(435)
+
+
 @pytest.mark.parametrize("input_string", _PARAMS_CONTAINS_ILLEGAL_CHARS)
 def test_validate_string_argument_contains_illegal_chars_returns_false(input_string):
     assert not validate_string_argument(input_string)
@@ -79,3 +88,18 @@ def test_validate_string_argument_blank_space_combinations_returns_false(input_s
 @pytest.mark.parametrize("input_string", _PARAMS_BLANK_SPACE_INPUTS)
 def test_validate_string_argument_blank_space_combinations_do_not_filter_illegal_chars_returns_false(input_string):
     assert not validate_string_argument(input_string, False)
+
+
+@pytest.mark.parametrize("input_string", _PARAMS_CONTAINS_ILLEGAL_CHARS)
+def test_has_illegal_filesystem_chars_concurrent_contains_illegal_chars_returns_true(input_string):
+    assert has_illegal_filesystem_chars_concurrent(input_string)
+
+
+@pytest.mark.parametrize("input_string", _PARAMS_ONLY_VALID_CHARS)
+def test_has_illegal_filesystem_chars_concurrent_only_valid_chars_returns_false(input_string):
+    assert not has_illegal_filesystem_chars_concurrent(input_string)
+
+
+@pytest.mark.parametrize("input_string", _PARAMS_BLANK_SPACE_INPUTS)
+def test_has_illegal_filesystem_chars_concurrent_blank_space_combinations_returns_false(input_string):
+    assert not has_illegal_filesystem_chars_concurrent(input_string)
