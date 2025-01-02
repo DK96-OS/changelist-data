@@ -3,10 +3,11 @@
 from pathlib import Path
 
 from changelist_data.changelist import Changelist
-from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
-from changelist_data.storage.storage_type import StorageType
 from changelist_data.storage import load_storage, load_any_storage_option, read_storage, read_any_storage_option
+from changelist_data.storage.changelist_data_storage import ChangelistDataStorage
+from changelist_data.storage.storage_type import StorageType, get_default_path
 from changelist_data.validation.arguments import validate_string_argument
+from changelist_data.xml.changelists import new_tree
 
 
 def read_storage_from_file_arguments(
@@ -33,7 +34,7 @@ def read_storage_from_file_arguments(
 def load_storage_from_file_arguments(
     changelists_file: str | None = None,
     workspace_file: str | None = None,
-) -> ChangelistDataStorage | None:
+) -> ChangelistDataStorage:
     """ Use the given optional parameters and search for the storage file.
         - Changelists_file argument overrides Workspace_file.
         - Defaults to searching Changelists then Workspace file default locations.
@@ -49,4 +50,11 @@ def load_storage_from_file_arguments(
         return load_storage(StorageType.CHANGELISTS, Path(changelists_file))
     if validate_string_argument(workspace_file):
         return load_storage(StorageType.WORKSPACE, Path(workspace_file))
-    return load_any_storage_option()
+    if (existing_storage := load_any_storage_option()) is not None:
+        return existing_storage
+    # Create a new Changelists Storage file
+    return ChangelistDataStorage(
+        new_tree(),
+        StorageType.CHANGELISTS,
+        get_default_path(StorageType.CHANGELISTS)
+    )
