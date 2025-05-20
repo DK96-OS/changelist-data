@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sorting>
+    <changelist name="CL-Data Storage Package" module="module">
+        <files path_start="changelist_data/storage" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="CL-Data Validation Package" module="module">
+        <files path_start="changelist_data/validation" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="CL-Data XML Package" module="module">
+        <files path_start="changelist_data/xml" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="CL-Data Main Package" module="module">
+        <files path_start="changelist_data/" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="Test Main Package">
+        <files path_end="changelist_data" />
+        <files path_start="test/changelist_data" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="Test Storage Package">
+        <files path_start="test/changelist_data/storage" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="Test Validation Package">
+        <files path_start="test/changelist_data/validation" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="Test XML Package">
+        <files path_start="test/changelist_data/xml" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist key="github_workflows" name="GitHub Workflows" module="hidden">
+        <files first_dir=".github"/>
+        <files path_end="workflows"/>
+        <files file_ext="yml"/>
+    </changelist>
+    <changelist key="github_dependabot" name="GitHub Dependabot" module="hidden">
+        <files first_dir=".github"/>
+        <files filename_prefix="dependabot"/>
+        <files file_ext="yml"/>
+    </changelist>
+    <changelist key="root_python" name="Root Project Python Files" module="root">
+        <files file_ext="py"/>
+    </changelist>
+    <changelist key="root_python" name="Root Project Docs" module="root">
+        <files file_ext="md"/>
+    </changelist>
+    <changelist key="hidden_files" name="Hidden Files In Hidden Directories" module="hidden">
+        <files filename_prefix="."/>
+    </changelist>
+    <changelist key="changelists" name="Changelists Configuration" module="hidden">
+        <files path_start=".changelists"/>
+        <files file_ext="xml"/>
+    </changelist>
+    <changelist key="root" name="Hidden Root Project Files" module="root">
+        <files filename_prefix="."/>
+    </changelist>
+</sorting>

@@ -57,7 +57,9 @@ def validate_file_input_text(file_path: Path) -> str:
         return file_path.read_text()
     except FileNotFoundError:
         exit("Couldn't find the file, after checking that it exists.")
-    except IOError:
+    except OSError:
         exit("IOError occurred while reading Input File")
+    except UnicodeDecodeError:
+        exit("File is not valid text. Unicode decode error.")
     except Exception as e:
         exit(f"Unexpected Exception while reading InputFile(name={file_path.name}, fileSize={file_size} kb) Exception=({e})")

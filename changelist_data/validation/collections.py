@@ -21,6 +21,7 @@ def divide_collection(
     num_groups: int = 2,
 ) -> Generator[list, None, None]:
     """ Divides a collection into smaller lists, yielding the results one by one.
+    - Empty Input returns nothing.
 
     Parameters:
     - input_list (list | tuple[...]): The collection that will be divided.
@@ -34,17 +35,15 @@ def divide_collection(
         raise ValueError("Input must be a collection (list or tuple), was " + str(type(input_collection)))
     if not isinstance(num_groups, int) or num_groups <= 0:
         raise ValueError("Number of groups must be a positive integer")
-    # Calculate the size of each group
+    # Check the Numbers
     if num_groups > (collection_size := len(input_collection)):
-        num_groups = collection_size
-    group_size = 0 if 0 == num_groups else collection_size // num_groups
-    # Generate smaller lists
+        if 0 == (num_groups := collection_size):
+            return
+    group_size = collection_size // num_groups # Calculate the size of each group
     for i in range(num_groups):
         start_index = i * group_size
         end_index = (i + 1) * group_size if i < num_groups - 1 else None
-        if 0 == len(new_group := input_collection[start_index:end_index]):
-            break    # Prevent Empty lists from being generated
-        yield new_group
+        yield input_collection[start_index:end_index]
 
 
 def execute_boolean_operation_concurrently(

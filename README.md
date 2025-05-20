@@ -33,19 +33,28 @@ Call the public methods of the appropriate package for the level of detail requi
 The highest level package does not import anything during initialization, or provide package level methods.
 It contains the common data classes shared by Changelist packages.
 
-#### Common Data Classes
-`class FileChange` : Individual Files
+**Common Data Classes:**
+#### `class FileChange` : Individual Files
 - before_path: str | None = None
 - before_dir: bool | None = None
 - after_path: str | None = None
 - after_dir: bool | None = None
 
-`class Changelist` : Lists of Files
+##### Constructor Methods
+- `create_fc`: represents created file.
+- `update_fc`: a modified or moved file.
+- `delete_fc`: a deleted file.
+
+#### `class Changelist` : Lists of Files
 - id: str
 - name: str
 - changes: list[FileChange] = field(default_factory=lambda: [])
 - comment: str = ""
 - is_default: bool = False
+
+##### Module Methods
+- `get_default_cl`: Get the default or first changelist in a list, tuple, or Iterable.
+- `compute_key`: Compute a changelist key, derived from the changelist name.
 
 ### Storage Package
 This package contains modules for both workspace and changelist storage options.

@@ -94,6 +94,46 @@ def test_divide_collection_single_char_7_groups_3_returns_3_groups():
     assert result[2] == ['e', 'f', 'g']
 
 
+def test_divide_collection_invalid_input_type():
+    with pytest.raises(ValueError, match="Input must be a collection"):
+        list(divide_collection("not a collection", 2))
+
+
+def test_divide_collection_invalid_num_groups_type():
+    with pytest.raises(ValueError, match="Number of groups must be a positive integer"):
+        list(divide_collection([1, 2, 3], "two"))
+
+
+def test_divide_collection_invalid_num_groups_zero_raises_value_error():
+    with pytest.raises(ValueError, match="Number of groups must be a positive integer"):
+        list(divide_collection([1, 2, 3], 0))
+
+
+def test_divide_collection_invalid_num_groups_negative_raises_value_error():
+    with pytest.raises(ValueError, match="Number of groups must be a positive integer"):
+        list(divide_collection([1, 2, 3], -5))
+
+
+def test_divide_collection_num_groups_1():
+    result = list(divide_collection([1, 2, 3], 1))
+    assert len(result) == 1
+
+
+def test_divide_collection_invalid_num_groups_():
+    result = list(divide_collection([1, 2, 3], 2))
+    assert len(result) == 2
+
+
+def test_divide_collection_invalid_num_groups_4():
+    result = list(divide_collection([1, 2, 3], 4))
+    assert len(result) == 3
+
+
+def test_divide_collection_empty_input():
+    result = list(divide_collection([], 4))
+    assert len(result) == 0
+
+
 @pytest.mark.parametrize("input_collection", [
     [],
     ["7",],
