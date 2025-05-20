@@ -62,6 +62,32 @@ def test_get_default_cl_sample_cls_list_returns_first1(sample_cl0, sample_cl1):
     assert changelist.get_default_cl([sample_cl1, sample_cl0]) == sample_cl1
 
 
+def test_get_default_cl_sample_cls_generator_returns_first1(sample_cl0, sample_cl1):
+    def sample_cl_generator():
+        yield from [sample_cl1, sample_cl0]
+    assert changelist.get_default_cl(sample_cl_generator()) == sample_cl1
+
+
+def test_get_default_cl_multi_cl_list_returns_default(multi_cl_list):
+    assert changelist.get_default_cl(multi_cl_list) == multi_cl_list[0]
+
+
+def test_get_default_cl_multi_cl_list_generator_returns_default(multi_cl_list):
+    def multi_cl_generator():
+        yield from multi_cl_list
+    assert changelist.get_default_cl(multi_cl_generator()) == multi_cl_list[0]
+
+
+def test_get_default_cl_empty_generator_returns_default():
+    def multi_cl_generator():
+        yield from []
+    assert changelist.get_default_cl(multi_cl_generator()) is None
+
+
+def test_get_default_cl_tuple_returns_first(sample_cl0, sample_cl1):
+    assert changelist.get_default_cl((sample_cl0, sample_cl1)) == sample_cl0
+
+
 def test_compute_key_empty_str_returns_empty_str():
     assert changelist.compute_key('') == ''
 
