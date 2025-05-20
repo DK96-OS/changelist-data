@@ -8,6 +8,14 @@
         <files path_start="changelist_data/validation" />
         <files file_ext="py" />
     </changelist>
+    <changelist name="CL-Data Changelist XML Package" module="module">
+        <files path_start="changelist_data/xml/changelists" />
+        <files file_ext="py" />
+    </changelist>
+    <changelist name="CL-Data Workspace XML Package" module="module">
+        <files path_start="changelist_data/xml/workspace" />
+        <files file_ext="py" />
+    </changelist>
     <changelist name="CL-Data XML Package" module="module">
         <files path_start="changelist_data/xml" />
         <files file_ext="py" />
