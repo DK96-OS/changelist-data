@@ -1,4 +1,4 @@
-"""The Data Class for a ChangeList.
+""" The Data Class for a ChangeList.
 """
 from dataclasses import dataclass, field
 from typing import Iterable
@@ -25,17 +25,39 @@ class Changelist:
 
 
 def get_default_cl(
-    changelists: Iterable[Changelist],
+    changelists: list[Changelist] | Iterable[Changelist],
 ) -> Changelist | None:
-    """ Find the Default Changelist, or set the first Changelist to default.
-        Returns None if lists is empty.
+    """ Find the Default Changelist, or the first Changelist.
+- Returns None if collection argument is empty.
+
+**Parameters:**
+ - changelists (list | Iterable): The collection of Changelist data objects.
+
+**Returns:**
+ Changelist? - The Default, or first CL, or None if the collection was empty.
     """
-    for cl in lists:
-        if cl.is_default:
-            return cl
-    if len(lists) > 0: # First if no default attribute found
-        return lists[0]
-    return None
+    if isinstance(changelists, list):
+        try:
+            return filter(lambda x: x.is_default, changelists).__next__()
+        except StopIteration:
+            pass
+        try:
+            return changelists[0]
+        except IndexError:
+            return None
+    elif isinstance(changelists, Iterable):
+        try:
+            iterator = changelists.__iter__()
+            if (first := iterator.__next__()).is_default:
+                return first
+            try:
+                return filter(lambda x: x.is_default, iterator).__next__()
+            except StopIteration:
+                return first
+        except StopIteration:
+            return None
+    else:
+        raise TypeError(type(changelists))
 
 
 def compute_key(cl_name: str) -> str:
