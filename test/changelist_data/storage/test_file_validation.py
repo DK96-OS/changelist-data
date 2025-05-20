@@ -121,3 +121,43 @@ def test_validate_file_input_text_simple_changelist_returns_str(simple_changelis
         c.setattr(Path, 'read_text', lambda _: simple_changelists_xml)
         simple_xml = validate_file_input_text(Path("file_name"))
     assert len(simple_xml) == 259
+
+
+def test_validate_file_input_text_file_not_exist(tmp_path):
+    file_path = tmp_path / "does_not_exist.txt"
+    with pytest.raises(SystemExit, match="File did not exist"):
+        validate_file_input_text(file_path)
+
+def test_validate_file_input_text_not_a_file(tmp_path):
+    dir_path = tmp_path / "adir"
+    dir_path.mkdir()
+    with pytest.raises(SystemExit, match="Given Path was not a file"):
+        validate_file_input_text(dir_path)
+
+def test_validate_file_input_text_file_deleted_after_check(monkeypatch, tmp_path):
+    file_path = tmp_path / "sample.txt"
+    file_path.write_text("content")
+    # Simulate deletion after the exists/is_file check, before read_text
+    monkeypatch.setattr(Path, "read_text", lambda self: (_ for _ in ()).throw(FileNotFoundError()))
+    with pytest.raises(SystemExit, match="Couldn't find the file, after checking that it exists."):
+        validate_file_input_text(file_path)
+
+def test_validate_file_input_text_permission_error(monkeypatch, tmp_path):
+    file_path = tmp_path / "sample.txt"
+    file_path.write_text("content")
+    # Simulate OSError/PermissionError
+    def raise_permission_error(self):
+        raise PermissionError("No permission")
+    monkeypatch.setattr(Path, "read_text", raise_permission_error)
+    with pytest.raises(SystemExit, match="IOError occurred while reading Input File"):
+        validate_file_input_text(file_path)
+
+def test_validate_file_input_text_unicode_decode_error(monkeypatch, tmp_path):
+    file_path = tmp_path / "sample.txt"
+    file_path.write_text("content")
+    # Simulate UnicodeDecodeError
+    def raise_unicode_error(self):
+        raise UnicodeDecodeError("utf-8", b"", 0, 1, "reason")
+    monkeypatch.setattr(Path, "read_text", raise_unicode_error)
+    with pytest.raises(SystemExit, match="File is not valid text. Unicode decode error."):
+        validate_file_input_text(file_path)
