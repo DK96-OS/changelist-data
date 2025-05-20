@@ -134,12 +134,6 @@ def test_divide_collection_empty_input():
     assert len(result) == 0
 
 
-def test_divide_collection_empty_input():
-    result = list(divide_collection([], 1))
-    assert len(result) == 0
-
-
-
 @pytest.mark.parametrize("input_collection", [
     [],
     ["7",],
