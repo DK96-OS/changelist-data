@@ -60,7 +60,7 @@ def _generate_changelists_from_any_storage_option() -> Generator[Changelist, Non
 def generate_changelists_from_storage(
     option: StorageType | None = None,
     file_path: Path | None = None,
-) -> Generator[Changelist]:
+) -> Generator[Changelist, None, None]:
     """ Read Changelist Data from Storage into a List of Changelist data.
 - None values indicate that the storage file should be searched for using default values.
 
