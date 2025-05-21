@@ -44,7 +44,7 @@ class ChangelistDataStorage:
         """ Overwrite the collection of Changelist data in Memory.
 
         Parameters:
-         - changelists (list[Changelist] | Iterable): The Changelists to insert into the Storage XML Tree.
+         - changelists (Iterable[Changelist]): The Changelists to insert into the Storage XML Tree.
         """
         self.base_xml_tree.update_changelists(changelists)
 
