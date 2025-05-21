@@ -2,6 +2,7 @@
 """
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
+from typing import Iterable, Generator
 from xml.etree.ElementTree import ElementTree, tostring
 
 from changelist_data.changelist import Changelist
@@ -20,20 +21,26 @@ class BaseXMLTree(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def update_changelists(self, changelists: list[Changelist]):
+    def generate_changelists(self) -> Generator[Changelist, None, None]:
         raise NotImplementedError
+
+    @abstractmethod
+    def update_changelists(
+        self,
+        changelists: list[Changelist] | Iterable[Changelist],
+    ): raise NotImplementedError
 
     def write_tree(
         self, path: Path,
     ) -> bool:
         """ Write the Tree as XML to the given Path.
-            Ensures that all parent directories exist, and creates the file if necessary.
+    - Ensures that all parent directories exist, and creates the file if necessary.
 
-        Parameters:
-        - path (Path): The Path to the File.
+    **Parameters:**
+     - path (Path): The Path to the File.
 
-        Returns:
-        bool - True if data was written to the file.
+    **Returns:**
+     bool - True if data was written to the file.
         """
         if not path.exists():
             path.parent.mkdir(parents=True, exist_ok=True)

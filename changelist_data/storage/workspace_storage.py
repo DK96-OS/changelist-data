@@ -1,10 +1,12 @@
 """ Storage for Workspace XML Format.
 """
 from pathlib import Path
+from typing import Generator
 
 from changelist_data.changelist import Changelist
 from changelist_data.storage import file_validation, storage_type
 from changelist_data.storage.storage_type import StorageType
+from changelist_data.xml import workspace
 from changelist_data.xml.workspace import read_xml, load_xml
 from changelist_data.xml.workspace.workspace_tree import WorkspaceTree
 
@@ -24,6 +26,14 @@ def read_file(
     return read_xml(
         file_validation.validate_file_input_text(file_path)
     )
+
+
+def _generate_changelists_from_file(
+    file_path: Path = storage_type.get_default_path(StorageType.WORKSPACE),
+) -> Generator[Changelist, None, None]:
+    if len(file_content := file_validation.validate_file_input_text(file_path)) == 0:
+        return # Empty Data File
+    yield from workspace.generate_changelists_from_xml(file_content)
 
 
 def load_file(
@@ -58,6 +68,5 @@ def write_file(
     bool - True after the operation succeeds.
     """
     if tree is None or not isinstance(tree, WorkspaceTree):
-        return False
-    tree.write_tree(file_path)
-    return True
+        raise TypeError
+    return tree.write_tree(file_path)

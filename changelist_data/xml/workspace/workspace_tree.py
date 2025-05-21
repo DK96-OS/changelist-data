@@ -1,5 +1,6 @@
 """ Loads the Workspace file into a Tree with read/write capabilities.
 """
+from typing import Iterable, Generator
 from xml.etree.ElementTree import Element, ElementTree, indent
 
 from changelist_data.changelist import Changelist
@@ -8,12 +9,11 @@ from changelist_data.xml.workspace import workspace_writer, workspace_reader
 
 
 class WorkspaceTree(BaseXMLTree):
-    """
-    Manages the Workspace XML Element Trees.
+    """ Manages the Workspace XML Element Trees.
 
-    Properties:
-    - xml_root (Element): The XML root element.
-    - changelist_manager (Element): The Changelist Manager Component Element.
+**Properties:**
+ - xml_root (Element): The XML root element.
+ - changelist_manager (Element): The Changelist Manager Component Element.
     """
 
     def __init__(
@@ -24,31 +24,39 @@ class WorkspaceTree(BaseXMLTree):
         self.changelist_manager = workspace_reader.find_changelist_manager(xml_root)
 
     def get_changelists(self) -> list[Changelist]:
-        """
-        Obtain the list of List Elements.
+        """ Obtain the list of CL Elements.
 
-        Returns:
-        list[Element] - A List containing the Lists.
+    **Returns:**
+     list[Changelist] - A List containing the Lists.
+        """
+        return list(self.generate_changelists())
+
+    def generate_changelists(self) -> Generator[Changelist, None, None]:
+        """ Generate Changelists from the Tree.
+
+    **Yields:**
+     Changelist - The data objects extracted from the Storage XML Tree.
         """
         if self.changelist_manager is None:
-            exit('XML File does not have a Changelist Manager.')
-        return workspace_reader.extract_list_elements(self.changelist_manager)
+            exit('XML File does not have a Changelists Element.')
+        yield from workspace_reader.generate_changelists(self.changelist_manager)
 
     def get_root(self) -> ElementTree:
-        """
-        Obtain the XML ElementTree Root.
+        """ Obtain the XML ElementTree Root.
+
+    **Returns:**
+     ElementTree - The XML Tree Root Element.
         """
         return ElementTree(self._xml_root)
 
     def update_changelists(
         self,
-        changelists: list[Changelist],
+        changelists: Iterable[Changelist],
     ):
-        """
-        Update the XML Tree's Changelist Manager Lists.
+        """ Update the XML Tree's Changelist Manager Lists.
         
-        Parameters:
-        - changelists (list[Changelist]): The List of Changelists.
+    **Parameters:**
+     - changelists (Iterable[Changelist]): The List or Iterable of Changelists.
         """
         clm = self.changelist_manager
         if clm is None:
