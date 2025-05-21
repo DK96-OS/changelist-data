@@ -40,12 +40,11 @@ def test_generate_changelists_from_storage_file_does_not_exist_():
     with pytest.MonkeyPatch().context() as c:
         c.setattr(Path, 'exists', lambda _: False)
         try:
-            result = list(generate_changelists_from_storage(None, Path("filepath")))
+            list(generate_changelists_from_storage(None, Path("filepath")))
             raises_exit = False
         except SystemExit:
             raises_exit = True
         assert raises_exit
-
 
 
 def test_generate_changelists_from_storage_workspace_simple_cl_returns_simple_list(simple_workspace_xml, simple_cl):
@@ -56,7 +55,7 @@ def test_generate_changelists_from_storage_workspace_simple_cl_returns_simple_li
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: simple_workspace_xml)
-        result = list(generate_changelists_from_storage(StorageType.WORKSPACE, Path("filepath")))
+        result = list(generate_changelists_from_storage(StorageType.WORKSPACE))
     assert result[0].id == simple_cl.id
     assert len(result) == 1
 
@@ -86,7 +85,7 @@ def test_generate_changelists_from_storage_changelists_multi_cl_returns_list(mul
     assert len(result) == 2
 
 
-def test_generate_changelists_from_storage_workspace_simple_cl_returns_simple_list(simple_workspace_xml, simple_cl):
+def test_generate_changelists_from_storage_workspace_with_path_simple_cl_returns_simple_list(simple_workspace_xml, simple_cl):
     with pytest.MonkeyPatch().context() as c:
         c.setattr(Path, 'exists', lambda _: True)
         c.setattr(Path, 'is_file', lambda _: True)
@@ -94,7 +93,7 @@ def test_generate_changelists_from_storage_workspace_simple_cl_returns_simple_li
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: simple_workspace_xml)
-        result = list(generate_changelists_from_storage(StorageType.WORKSPACE))
+        result = list(generate_changelists_from_storage(StorageType.WORKSPACE, Path("filepath")))
     assert result[0].id == simple_cl.id
     assert len(result) == 1
 
