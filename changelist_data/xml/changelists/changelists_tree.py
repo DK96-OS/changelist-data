@@ -31,7 +31,7 @@ class ChangelistsTree(BaseXMLTree):
         """
         return list(self.generate_changelists())
 
-    def generate_changelists(self) -> Generator[Changelist]:
+    def generate_changelists(self) -> Generator[Changelist, None, None]:
         """ Generate Changelists from the Tree.
 
     **Yields:**
