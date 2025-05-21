@@ -53,7 +53,7 @@ def _generate_changelists_from_any_storage_option() -> Generator[Changelist, Non
     for opts in StorageType:
         if (storage_path := file_validation.check_if_default_file_exists(StorageType(opts))) is not None:
             yield from _generate_option(StorageType(opts), storage_path)
-            return None
+            break
     return None
 
 
@@ -75,6 +75,7 @@ def generate_changelists_from_storage(
         if option is None:
             exit("When File Path is Provided, The Storage Type must be Provided as well.")
         yield from _generate_option(option, file_path)
+        return None
     # Find and Read from Default File Paths
     if option is None:
         if (storage_result := _generate_changelists_from_any_storage_option()) is not None:
