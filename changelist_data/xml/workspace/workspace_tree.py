@@ -32,12 +32,20 @@ class WorkspaceTree(BaseXMLTree):
         return list(self.generate_changelists())
 
     def generate_changelists(self) -> Generator[Changelist, None, None]:
+        """ Generate Changelists from the Tree.
+
+    **Yields:**
+     Changelist - The data objects extracted from the Storage XML Tree.
+        """
         if self.changelist_manager is None:
             exit('XML File does not have a Changelists Element.')
-        return workspace_reader.generate_changelists(self.changelist_manager)
+        yield from workspace_reader.generate_changelists(self.changelist_manager)
 
     def get_root(self) -> ElementTree:
         """ Obtain the XML ElementTree Root.
+
+    **Returns:**
+     ElementTree - The XML Tree Root Element.
         """
         return ElementTree(self._xml_root)
 

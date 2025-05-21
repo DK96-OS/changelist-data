@@ -24,6 +24,16 @@ def read_xml(
 def generate_changelists_from_xml(
     workspace_xml: str
 ) -> Generator[Changelist, None, None]:
+    """ Generates Changelist Data from the Given XML String.
+ - Parses the XML string using ElementTree.
+ - Creates Changelist data objects one at a time from the ElementTree.
+
+**Parameters:**
+ - workspace_xml (str): The Workspace xml file contents as a string.
+
+**Yields:**
+ Changelist - The Changelist data objects extracted from the XML ElementTree.
+    """
     if (cl_manager := workspace_reader.find_changelist_manager(
         workspace_reader.parse_xml(workspace_xml)
     )) is None:
