@@ -88,6 +88,11 @@ def test_get_default_cl_tuple_returns_first(sample_cl0, sample_cl1):
     assert changelist.get_default_cl((sample_cl0, sample_cl1)) == sample_cl0
 
 
+def test_get_default_cl_single_cl_raises_type_error(sample_cl0):
+    with pytest.raises(TypeError):
+        changelist.get_default_cl(sample_cl0)
+
+
 def test_compute_key_empty_str_returns_empty_str():
     assert changelist.compute_key('') == ''
 
