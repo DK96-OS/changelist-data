@@ -1,5 +1,6 @@
 """ XML Tree Class for Changelists Data XML.
 """
+from typing import Iterable, Generator
 from xml.etree.ElementTree import Element, ElementTree, indent
 
 from changelist_data.changelist import Changelist
@@ -8,12 +9,11 @@ from changelist_data.xml.changelists import changelists_reader, changelists_writ
 
 
 class ChangelistsTree(BaseXMLTree):
-    """
-    Manages the Changelists Data XML Element Trees.
+    """ Manages the Changelists Data XML Element Trees.
 
-    Properties:
-    - xml_root (Element): The XML root element.
-    - changelists_element (Element): The Changelists Tag Element.
+**Properties:**
+ - xml_root (Element): The XML root element.
+ - changelists_element (Element): The Changelists Tag Element.
     """
     
     def __init__(
@@ -24,31 +24,31 @@ class ChangelistsTree(BaseXMLTree):
         self.changelists_element = changelists_reader.find_changelists_root(xml_root)
 
     def get_changelists(self) -> list[Changelist]:
-        """
-        Given the Changelist Manager Element, obtain the list of List Elements.
+        """ Given the Changelist Manager Element, obtain the list of List Elements.
 
-        Returns:
-        list[Changelist] - A List containing the Lists.
+    **Returns:**
+     list[Changelist] - A List containing the Lists.
         """
+        return list(self.generate_changelists())
+
+    def generate_changelists(self) -> Generator[Changelist]:
         if self.changelists_element is None:
             exit('XML File does not have a Changelists Element.')
-        return changelists_reader.extract_list_elements(self.changelists_element)
+        return changelists_reader.generate_changelists(self.changelists_element)
 
     def get_root(self) -> ElementTree:
-        """
-        Obtain the XML ElementTree Root.
+        """ Obtain the XML ElementTree Root.
         """
         return ElementTree(self._xml_root)
 
     def update_changelists(
         self,
-        changelists: list[Changelist],
+        changelists: Iterable[Changelist],
     ):
-        """
-        Update the XML Tree's Changelists.
+        """ Update the XML Tree's Changelists.
         
-        Parameters:
-        - changelists (list[Changelist]): The List of Changelists.
+    **Parameters:**
+     - changelists (Iterable[Changelist]): The List or Iterable of Changelists.
         """
         clm = self.changelists_element
         if clm is None:
