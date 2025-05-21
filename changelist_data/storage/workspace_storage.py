@@ -28,12 +28,10 @@ def read_file(
     )
 
 
-def generate_changelists_from_file(
-    file_path: Path | None = storage_type.get_default_path(StorageType.WORKSPACE),
+def _generate_changelists_from_file(
+    file_path: Path = storage_type.get_default_path(StorageType.WORKSPACE),
 ) -> Generator[Changelist, None, None]:
     """ """
-    if file_path is None:
-        return # None Path Given
     if len(file_content := file_validation.validate_file_input_text(file_path)) == 0:
         return # Empty Data File
     yield from workspace.generate_changelists_from_xml(file_content)
@@ -71,6 +69,5 @@ def write_file(
     bool - True after the operation succeeds.
     """
     if tree is None or not isinstance(tree, WorkspaceTree):
-        return False
-    tree.write_tree(file_path)
-    return True
+        raise TypeError
+    return tree.write_tree(file_path)
