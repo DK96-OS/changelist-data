@@ -17,11 +17,11 @@ def read_xml(
 ) -> list[Changelist]:
     """ Parse the ChangeLists XML file and obtain all ChangeList Data in a list.
 
-    Parameters:
-     - changelists_xml (str): The contents of the ChangeLists file, in xml format.
+**Parameters:**
+ - changelists_xml (str): The contents of the ChangeLists file, in xml format.
     
-    Returns:
-     list[Changelist] - The list of Changelist objects in the ChangeLists file.
+**Returns:**
+ list[Changelist] - The list of Changelist objects in the ChangeLists file.
     """
     return list(generate_changelists_from_xml(changelists_xml))
 
@@ -29,6 +29,16 @@ def read_xml(
 def generate_changelists_from_xml(
     changelists_xml: str
 ) -> Generator[Changelist, None, None]:
+    """ Generates Changelist Data from the Given XML String.
+ - Parses the XML string using ElementTree.
+ - Creates Changelist data objects one at a time from the ElementTree.
+
+**Parameters:**
+ - changelists_xml (str): The Changelists data.xml file contents as a string.
+
+**Yields:**
+ Changelist - The Changelist data objects extracted from the XML ElementTree.
+    """
     if (cl_manager := changelists_reader.find_changelists_root(
         changelists_reader.parse_xml(changelists_xml)
     )) is None:
@@ -41,8 +51,8 @@ def load_xml(
 ) -> ChangelistsTree:
     """ Parse the Changelists XML file into an XML Tree, and Wrap it.
 
-    Returns:
-     ChangelistsTree - An XML Tree changelists interface.
+**Returns:**
+ ChangelistsTree - An XML Tree changelists interface.
     """
     return ChangelistsTree(
         changelists_reader.parse_xml(changelists_xml)
@@ -52,8 +62,8 @@ def load_xml(
 def new_tree() -> ChangelistsTree:
     """ Create a new Changelists XML Tree, and Wrap it.
 
-    Returns:
-     ChangelistsTree - An XML Tree changelists interface.
+**Returns:**
+ ChangelistsTree - An XML Tree changelists interface.
     """
     return ChangelistsTree(
         changelists_reader.parse_xml(EMPTY_CHANGELISTS_DATA)

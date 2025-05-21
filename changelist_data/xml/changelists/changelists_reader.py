@@ -52,10 +52,19 @@ def extract_list_elements(changelists_element: Element) -> list[Changelist]:
 
 
 def generate_changelists(
-    changelist_manager: Element
-) -> Generator[Changelist]:
-    """ """
-    for cl_element in xml_reader.filter_by_tag(changelist_manager, 'list'):
+    cl_container: Element
+) -> Generator[Changelist, None, None]:
+    """ Generate Changelists from the XML Tree Element.
+- The given Element's sub-elements are filtered by tag for 'list'.
+- These 'list' elements are translated into Changelist data objects.
+
+**Parameters:**
+ - cl_container (Element): The XML Changelist Container Element.
+
+**Yields:**
+ Changelist - The CL Data objects extracted from the XML tree.
+    """
+    for cl_element in xml_reader.filter_by_tag(cl_container, 'list'):
         yield Changelist(
             id=xml_reader.get_attr(cl_element, 'id'),
             name=xml_reader.get_attr(cl_element, 'name'),
@@ -63,7 +72,6 @@ def generate_changelists(
             comment=xml_reader.get_attr_or(cl_element, 'comment', ''),
             is_default=xml_reader.read_bool_from(cl_element, 'default'),
         )
-
 
 
 def _extract_change_data(
@@ -84,8 +92,7 @@ def _extract_change_data(
 
 def _generate_change_data(
     elements: Iterable[Element],
-) -> Generator[FileChange]:
-    """ """
+) -> Generator[FileChange, None, None]:
     for change in elements:
         yield FileChange(
             before_path=xml_reader.get_attr(change, 'beforePath'),
