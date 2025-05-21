@@ -10,12 +10,12 @@ from changelist_data.file_change import FileChange
 class Changelist:
     """ The Data class representing a ChangeList.
     
-    Properties:
-    - id (str): The unique id of the changelist.
-    - name (str): The name of the changelist.
-    - changes (list[FileChange]): The list of FileChange data objects. Default: Empty List.
-    - comment (str): The comment associated with the changelist. Default: Empty String.
-    - is_default (bool): Whether this is the active changelist. Default: False.
+**Properties:**
+ - id (str): The unique id of the changelist.
+ - name (str): The name of the changelist.
+ - changes (list[FileChange]): The list of FileChange data objects. Default: Empty List.
+ - comment (str): The comment associated with the changelist. Default: Empty String.
+ - is_default (bool): Whether this is the active changelist. Default: False.
     """
     id: str
     name: str
@@ -29,9 +29,10 @@ def get_default_cl(
 ) -> Changelist | None:
     """ Find the Default Changelist, or the first Changelist.
 - Returns None if collection argument is empty.
+- Handles list arguments slightly differently from Iterables.
 
 **Parameters:**
- - changelists (list | Iterable): The collection of Changelist data objects.
+ - changelists (list | Iterable[Changelist]): The collection of Changelist data objects.
 
 **Returns:**
  Changelist? - The Default, or first CL, or None if the collection was empty.
@@ -62,13 +63,13 @@ def get_default_cl(
 
 def compute_key(cl_name: str) -> str:
     """ Compute a Key to use for a given Changelist Name.
-     - computation is a sequence of reduction operations
+ - computation is a sequence of reduction operations
 
-    Parameters:
-    - cl_name (str): The Changelist Name to use in key computation.
+**Parameters:**
+ - cl_name (str): The Changelist Name to use in key computation.
 
-    Returns:
-    str - A Key that can be used for changelist lookups, or an empty str.
+**Returns:**
+ str - A Key that can be used for changelist lookups, or an empty str.
     """
     if len(cl_name) == 0:
         return ''
