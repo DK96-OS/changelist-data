@@ -139,8 +139,6 @@ def _generate_option(
         yield from changelists_storage.generate_changelists_from_file(path)
     elif option == StorageType.WORKSPACE:
         yield from workspace_storage.generate_changelists_from_file(path)
-    else:
-        raise ValueError("Invalid Storage Option")
     return None
 
 def _load_option(
