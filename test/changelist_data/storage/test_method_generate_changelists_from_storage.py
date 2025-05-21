@@ -5,15 +5,15 @@ from unittest.mock import Mock
 
 import pytest
 
-from changelist_data.storage import read_storage, generate_changelists_from_storage
+from changelist_data.storage import generate_changelists_from_storage
 from changelist_data.storage.storage_type import StorageType
 
 
 def test_generate_changelists_from_storage_defaults_no_files_exist_returns_empty_list():
     with pytest.MonkeyPatch().context() as c:
         c.setattr(Path, 'exists', lambda _: False)
-        result = generate_changelists_from_storage()
-    assert len(list(result)) == 0
+        result = list(generate_changelists_from_storage())
+    assert len(result) == 0
 
 
 def test_generate_changelists_from_storage_defaults_all_paths_are_dirs_returns_empty_list():
@@ -32,15 +32,15 @@ def test_generate_changelists_from_storage_default_simple_cl_(simple_changelists
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: simple_changelists_xml)
-        result = generate_changelists_from_storage()
-    assert len(list(result)) == 1
+        result = list(generate_changelists_from_storage())
+    assert len(result) == 1
 
 
 def test_generate_changelists_from_storage_file_does_not_exist_():
     with pytest.MonkeyPatch().context() as c:
         c.setattr(Path, 'exists', lambda _: False)
         try:
-            generate_changelists_from_storage(None, Path("filepath"))
+            result = list(generate_changelists_from_storage(None, Path("filepath")))
             raises_exit = False
         except SystemExit:
             raises_exit = True
@@ -55,8 +55,8 @@ def test_generate_changelists_from_storage_changelists_simple_cl_(simple_changel
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: simple_changelists_xml)
-        result = generate_changelists_from_storage(StorageType.CHANGELISTS, Path("filepath"))
-    assert len(list(result)) == 1
+        result = list(generate_changelists_from_storage(StorageType.CHANGELISTS, Path("filepath")))
+    assert len(result) == 1
 
 
 def test_generate_changelists_from_storage_workspace_simple_cl_(simple_workspace_xml):
@@ -67,8 +67,8 @@ def test_generate_changelists_from_storage_workspace_simple_cl_(simple_workspace
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: simple_workspace_xml)
-        result = generate_changelists_from_storage(StorageType.WORKSPACE, Path("filepath"))
-    assert len(list(result)) == 1
+        result = list(generate_changelists_from_storage(StorageType.WORKSPACE, Path("filepath")))
+    assert len(result) == 1
 
 
 def test_generate_changelists_from_storage_changelists_simple_cl_returns_simple_list(simple_changelists_xml):
@@ -79,8 +79,8 @@ def test_generate_changelists_from_storage_changelists_simple_cl_returns_simple_
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: simple_changelists_xml)
-        result = generate_changelists_from_storage(StorageType.CHANGELISTS)
-    assert len(list(result)) == 1
+        result = list(generate_changelists_from_storage(StorageType.CHANGELISTS))
+    assert len(result) == 1
 
 
 def test_generate_changelists_from_storage_changelists_multi_cl_returns_list(multi_changelists_xml):
@@ -91,9 +91,8 @@ def test_generate_changelists_from_storage_changelists_multi_cl_returns_list(mul
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: multi_changelists_xml)
-        result = generate_changelists_from_storage(StorageType.CHANGELISTS)
-    assert len(list(result)) == 2
-
+        result = list(generate_changelists_from_storage(StorageType.CHANGELISTS))
+    assert len(result) == 2
 
 
 def test_generate_changelists_from_storage_workspace_simple_cl_returns_simple_list(simple_workspace_xml):
@@ -104,8 +103,8 @@ def test_generate_changelists_from_storage_workspace_simple_cl_returns_simple_li
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: simple_workspace_xml)
-        result = generate_changelists_from_storage(StorageType.WORKSPACE)
-    assert len(list(result)) == 1
+        result = list(generate_changelists_from_storage(StorageType.WORKSPACE))
+    assert len(result) == 1
 
 
 def test_generate_changelists_from_storage_workspace_multi_cl_returns_list(multi_workspace_xml):
@@ -116,5 +115,5 @@ def test_generate_changelists_from_storage_workspace_multi_cl_returns_list(multi
         obj.__dict__["st_size"] = 4 * 1024
         c.setattr(Path, 'stat', lambda _: obj)
         c.setattr(Path, 'read_text', lambda _: multi_workspace_xml)
-        result = generate_changelists_from_storage(StorageType.WORKSPACE)
-    assert len(list(result)) == 2
+        result = list(generate_changelists_from_storage(StorageType.WORKSPACE))
+    assert len(result) == 2
