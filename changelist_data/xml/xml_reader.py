@@ -5,66 +5,58 @@ from xml.etree.ElementTree import Element
 
 
 def filter_by_tag(element: Element, tag: str) -> Iterator[Element]:
-    """
-    Obtain all Elements that match a given Tag.
+    """ Obtain all Elements that match a given Tag.
     
-    Parameters:
-    - element (Element): The element to search within.
-    - tag (str): The name of the Tag to filter for.
+**Parameters:**
+ - element (Element): The element to search within.
+ - tag (str): The name of the Tag to filter for.
 
-    Returns:
-    list[Element]
+**Returns:**
+ Iterator[Element] - An iterable object providing XML Elements.
     """
     return filter(lambda x: x.tag == tag, element.iter())
 
 
 def get_attr(element: Element, attr: str) -> str | None:
-    """
-    Obtain the Attribute from an element safely, returning None.
+    """ Obtain the Attribute from an element safely, returning None.
 
-    Parameters:
-    - element (Element): The element to obtain the attribute from.
-    - attr (str): The name of the attribute.
+**Parameters:**
+ - element (Element): The element to obtain the attribute from.
+ - attr (str): The name of the attribute.
 
-    Returns:
-    str | None - The value of the attribute, or None.
+**Returns:**
+ str? - The value of the attribute, or None.
     """
     return element.attrib[attr] if attr in element.attrib else None
 
 
 def get_attr_or(element: Element, attr: str, default: str) -> str:
-    """
-    Obtain the Attribute from an element safely, returning None if not found.
+    """ Obtain the Attribute from an element safely, returning None if not found.
 
-    Parameters:
-    - element (Element): The element to obtain the attribute from.
-    - attr (str): The name of the attribute.
+**Parameters:**
+- element (Element): The element to obtain the attribute from.
+- attr (str): The name of the attribute.
 
-    Returns:
-    str - The value of the attribute in the element, or the default.
+**Returns:**
+ str - The value of the attribute in the element, or the default.
     """
     return element.attrib[attr] if attr in element.attrib else default
 
 
 def read_bool_from(element: Element, attr: str) -> bool:
-    """
-    Obtain the Attribute from an element safely, returning None if not found.
+    """ Obtain the Attribute from an element safely, returning False if not found.
 
-    Parameters:
-    - element (Element): The element to obtain the attribute from.
-    - attr (str): The name of the attribute.
+**Parameters:**
+ - element (Element): The element to obtain the attribute from.
+ - attr (str): The name of the attribute.
 
-    Returns:
-    bool - The attribute converted to a boolean.
+**Returns:**
+ bool - The attribute converted to a boolean.
     """
-    value = get_attr_or(element, attr, 'false')
-    return value.lower() == 'true'
+    return get_attr_or(element, attr, '').lower() == 'true'
 
 
 def convert_bool(attr: str | None) -> bool | None:
+    """ Convert a String attribute to boolean.
     """
-    Convert a String attribute to boolean.
-    """
-    if attr is None:
-        return None
-    return attr == 'true'
+    return None if attr is None else attr == 'true'

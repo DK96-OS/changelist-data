@@ -1,17 +1,24 @@
-""" File Validation Methods
+""" File Validation Methods.
 """
 from pathlib import Path
 
-from changelist_data.storage import storage_type
-from changelist_data.storage.storage_type import StorageType
+from changelist_data.storage.storage_type import StorageType, get_default_path
 
 
 CHANGELISTS_FILE_PATH_STR = '.changelists/data.xml'
 WORKSPACE_FILE_PATH_STR = '.idea/workspace.xml'
 
 
-def file_exists(path: Path) -> bool:
+def file_exists(
+    path: Path,
+) -> bool:
     """ Determines if Path exists and is_file.
+
+**Parameters:**
+ - path (Path): The path to check.
+
+**Returns:**
+ bool - Whether the file exists.
     """
     return path.exists() and path.is_file()
 
@@ -21,30 +28,31 @@ def check_if_default_file_exists(
 ) -> Path | None:
     """ Return the Path to the default file for this storage option iff it exists.
 
-    Parameters:
-    - option (StorageType): The StorageType option to check.
+**Parameters:**
+ - option (StorageType): The StorageType option to check.
 
-    Returns:
-    Path | None - The Path to the Default Storage File, or None if the path is not a file that exists.
+**Returns:**
+ Path? - The Path to the Default Storage File, or None if the path is not a file that exists.
     """
-    if file_exists(file_path := storage_type.get_default_path(option)):
+    if file_exists(file_path := get_default_path(option)):
         return file_path
     return None
 
 
-def validate_file_input_text(file_path: Path) -> str:
-    """
-    Ensure that the File Exists, and is within reasonable size parameters.
-        Read the File and return its string contents.
+def validate_file_input_text(
+    file_path: Path,
+) -> str:
+    """ Ensure that the File Exists, and is within reasonable size parameters.
+ - Read the File and return its string contents.
 
-    Parameters:
-    - file_path (Path): The Path to the Input File.
+**Parameters:**
+ - file_path (Path): The Path to the Input File.
 
-    Returns:
-    str - The Text Contents of the Input File.
+**Returns:**
+ str - The Text Contents of the Input File.
 
-    Raises:
-    SystemExit - When any of the validation conditions fails, or the file operation fails.
+**Raises:**
+ SystemExit - When any of the validation conditions fails, or the file operation fails.
     """
     if not file_path.exists():
         exit("File did not exist")

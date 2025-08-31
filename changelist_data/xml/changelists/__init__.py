@@ -63,7 +63,7 @@ def new_tree() -> ChangelistsTree:
     """ Create a new Changelists XML Tree, and Wrap it.
 
 **Returns:**
- ChangelistsTree - An XML Tree changelists interface.
+ ChangelistsTree - An XML Tree Changelists interface.
     """
     return ChangelistsTree(
         changelists_reader.parse_xml(EMPTY_CHANGELISTS_DATA)

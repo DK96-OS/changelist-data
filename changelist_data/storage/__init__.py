@@ -15,11 +15,11 @@ def read_storage(
     file_path: Path | None = None,
 ) -> list[Changelist]:
     """ Read Changelist Data from Storage into a List of Changelist data.
-        - None values indicate that the storage file should be searched for using default values.
+ - None values indicate that the storage file should be searched for using default values.
 
 **Parameters:**
- - option (StorageType | None): The Storage Type describing the XML format. Search all StorageTypes in order by default.
- - file_path (Path | None): The file path to read from. Use None to look in default storage locations.
+ - option (StorageType?): The Storage Type describing the XML format. Search all StorageTypes in order by default. Default: None.
+ - file_path (Path?): The file path to read from. Use None to look in default storage locations. Default: None.
 
 **Returns:**
  list[Changelist] - The List of Changelist data.
@@ -62,11 +62,11 @@ def generate_changelists_from_storage(
     file_path: Path | None = None,
 ) -> Generator[Changelist, None, None]:
     """ Read Changelist Data from Storage into a List of Changelist data.
-- None values indicate that the storage file should be searched for using default values.
+ - None values indicate that the storage file should be searched for using default values.
 
 **Parameters:**
- - option (StorageType | None): The Storage Type describing the XML format. Search all StorageTypes in order by default.
- - file_path (Path | None): The file path to read from. Use None to look in default storage locations.
+ - option (StorageType?): The Storage Type describing the XML format. Search all StorageTypes in order by default. Default: None.
+ - file_path (Path?): The file path to read from. Use None to look in default storage locations. Default: None.
 
 **Returns:**
  list[Changelist] - The List of Changelist data.
@@ -91,11 +91,11 @@ def load_storage(
     file_path: Path | None = None,
 ) -> ChangelistDataStorage:
     """ Load Changelist Data into a managed Storage object.
-- None values indicate that the storage file should be searched for using default values.
+ - None values indicate that the storage file should be searched for using default values.
 
 **Parameters:**
- - option (StorageType | None): The Storage Type describing the XML format. Use None to search all StorageTypes in order.
- - file_path (Path | None): The file path to read from. Use None to look in default storage locations.
+ - option (StorageType?): The Storage Type describing the XML format. Use None to search all StorageTypes in order. Default: None.
+ - file_path (Path?): The file path to read from. Use None to look in default storage locations. Default: None.
 
 **Returns:**
  ChangelistDataStorage - A managed Storage object containing Changelist data.
@@ -134,7 +134,7 @@ def load_any_storage_option() -> ChangelistDataStorage | None:
 
 def _generate_option(
     option: StorageType,
-    path: Path
+    path: Path,
 ) -> Generator[Changelist, None, None]:
     if option == StorageType.CHANGELISTS:
         yield from changelists_storage.generate_changelists_from_file(path)
@@ -142,20 +142,13 @@ def _generate_option(
         yield from workspace_storage._generate_changelists_from_file(path)
     return None
 
+
 def _load_option(
     option: StorageType,
-    path: Path
+    path: Path,
 ) -> ChangelistDataStorage:
-    if option == StorageType.CHANGELISTS:
-        return ChangelistDataStorage(
-            changelists_storage.load_file(path),
-            option,
-            path
-        )
-    if option == StorageType.WORKSPACE:
-        return ChangelistDataStorage(
-            workspace_storage.load_file(path),
-            option,
-            path
-        )
-    raise ValueError("Invalid Storage Option")
+    return ChangelistDataStorage(
+        changelists_storage.load_file(path) if option == StorageType.CHANGELISTS else workspace_storage.load_file(path),
+        option,
+        path
+    )
