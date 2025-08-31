@@ -12,11 +12,11 @@ def read_xml(
 ) -> list[Changelist]:
     """ Parse the Workspace XML file and obtain all ChangeList Data in a list.
 
-    Parameters:
-     - workspace_xml (str): The contents of the Workspace file, in xml format.
+**Parameters:**
+ - workspace_xml (str): The contents of the Workspace file, in xml format.
     
-    Returns:
-     list[Changelist] - The list of Changelists in the workspace file.
+**Returns:**
+ list[Changelist] - The list of Changelists in the workspace file.
     """
     return list(generate_changelists_from_xml(workspace_xml))
 
@@ -41,17 +41,16 @@ def generate_changelists_from_xml(
     yield from workspace_reader.generate_changelists(cl_manager)
 
 
-
 def load_xml(
     workspace_xml: str
 ) -> WorkspaceTree:
     """ Parse the Workspace XML file into an XML Tree, and Wrap it.
 
-    Parameters:
-     - workspace_xml (str): The contents of the Workspace file, in xml format.
+**Parameters:**
+ - workspace_xml (str): The contents of the Workspace file, in xml format.
 
-    Returns:
-     WorkspaceTree - An XML Tree changelists interface.
+**Returns:**
+ WorkspaceTree - An XML Tree changelists interface.
     """
     return WorkspaceTree(
         workspace_reader.parse_xml(workspace_xml)
