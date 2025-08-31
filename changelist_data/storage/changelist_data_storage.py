@@ -25,16 +25,16 @@ class ChangelistDataStorage:
     def get_changelists(self) -> list[Changelist]:
         """ Obtain a list of the Changelists from the Storage xml.
 
-    **Returns:**
-     list[Changelist] - A list of Changelist data objects from the Storage xml file.
+**Returns:**
+ list[Changelist] - A list of Changelist data objects from the Storage xml file.
         """
         return self.base_xml_tree.get_changelists()
 
     def generate_changelists(self) -> Generator[Changelist, None, None]:
         """ Generate Changelist data objects from the Storage xml tree.
 
-    **Yields:**
-     Changelist - The Changelist data objects extracted from the XML tree.
+**Yields:**
+ Changelist - The Changelist data objects extracted from the XML tree.
         """
         return self.base_xml_tree.generate_changelists()
 
@@ -43,16 +43,16 @@ class ChangelistDataStorage:
     ):
         """ Overwrite the collection of Changelist data in Memory.
 
-        Parameters:
-         - changelists (Iterable[Changelist]): The Changelists to insert into the Storage XML Tree.
+**Parameters:**
+ - changelists (Iterable[Changelist]): The Changelists to insert into the Storage XML Tree.
         """
         self.base_xml_tree.update_changelists(changelists)
 
     def write_to_storage(self) -> bool:
         """ Create or overwrite storage file.
-         - Ensures parent directories exist.
+ - Ensures parent directories exist.
 
-        Returns:
-         bool - True if data was written.
+**Returns:**
+ bool - True if data was written.
         """
         return self.base_xml_tree.write_tree(self.update_path)
