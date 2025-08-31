@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: [ release-* ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     strategy:
@@ -25,7 +28,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest==8.3.3 pytest-cov==5.0.0
+          pip install pytest==8.4.1 pytest-cov==6.2.1
 
       - name: Run unit tests
         run: pytest test/ --cov=changelist_data --cov-report=html
