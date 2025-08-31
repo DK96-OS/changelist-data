@@ -11,15 +11,15 @@ def validate_string_argument(
     check_illegal_fs_chars: bool = True,
 ) -> bool:
     """ Determine whether an argument is a non-empty string.
-        - Does not count whitespace.
-        - Uses the strip method to remove empty space.
+ - Does not count whitespace.
+ - Uses the strip method to remove empty space.
 
-    Parameters:
-    - argument (str): The given argument to validate.
-    - check_illegal_fs_chars (bool): Whether to apply the Illegal Character filter. Default is True.
+**Parameters:**
+ - argument (str): The given argument to validate.
+ - check_illegal_fs_chars (bool): Whether to apply the Illegal Character filter. Default is True.
 
-    Returns:
-    bool - True if the argument qualifies as valid.
+**Returns:**
+ bool - True if the argument qualifies as valid.
     """
     if argument is None or not isinstance(argument, str):
         return False
@@ -35,11 +35,11 @@ def has_illegal_filesystem_chars(
 ) -> bool:
     """ Determines whether this argument contains illegal filesystem characters.
 
-    Parameters:
-    - filesystem_argument (str): The argument to be validated.
+**Parameters:**
+ - filesystem_argument (str): The argument to be validated.
 
-    Returns:
-    bool - True if an illegal character was found in the sequence. The argument must be filtered or rejected.
+**Returns:**
+ bool - True if an illegal character was found in the sequence. The argument must be filtered or rejected.
     """
     for char in _ILLEGAL_FILESYSTEM_CHARS:
         if char in filesystem_argument:
@@ -52,11 +52,11 @@ def has_illegal_filesystem_chars_concurrent(
 ) -> bool:
     """ Determines whether this argument contains illegal filesystem characters.
 
-    Parameters:
-    - filesystem_argument (str): The argument to be validated.
+**Parameters:**
+ - filesystem_argument (str): The argument to be validated.
 
-    Returns:
-    bool - True if an illegal character was found in the sequence. The argument must be filtered or rejected.
+**Returns:**
+ bool - True if an illegal character was found in the sequence. The argument must be filtered or rejected.
     """
     def check_chars(characters):
         for c in characters:
