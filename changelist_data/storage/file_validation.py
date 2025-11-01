@@ -5,10 +5,6 @@ from pathlib import Path
 from changelist_data.storage.storage_type import StorageType, get_default_path
 
 
-CHANGELISTS_FILE_PATH_STR = '.changelists/data.xml'
-WORKSPACE_FILE_PATH_STR = '.idea/workspace.xml'
-
-
 def file_exists(
     path: Path,
 ) -> bool:
@@ -54,20 +50,17 @@ def validate_file_input_text(
 **Raises:**
  SystemExit - When any of the validation conditions fails, or the file operation fails.
     """
-    if not file_path.exists():
-        exit("File did not exist")
-    if not file_path.is_file():
-        exit("Given Path was not a file")
-    file_stats = file_path.stat()
-    if (file_size := file_stats.st_size / 1024) > 32 * 1024:
-        exit("Input File was larger than 32 MB. Refusing to read it.")
     try:
+        if not file_path.exists():
+            exit("File did not exist.")
+        if not file_path.is_file():
+            exit("Given Path was not a file.")
+        if (file_size := file_path.stat().st_size) > 32 * 1024**2:
+            exit("Input File was larger than 32 MB. Refusing to read it.")
         return file_path.read_text()
-    except FileNotFoundError:
-        exit("Couldn't find the file, after checking that it exists.")
+    except UnicodeError:
+        exit("File is not valid text. Unicode error.")
     except OSError:
-        exit("IOError occurred while reading Input File")
-    except UnicodeDecodeError:
-        exit("File is not valid text. Unicode decode error.")
+        exit("OSError occurred while reading Input File.")
     except Exception as e:
-        exit(f"Unexpected Exception while reading InputFile(name={file_path.name}, fileSize={file_size} kb) Exception=({e})")
+        exit(f"Unexpected Exception while reading InputFile(name={file_path.name}, fileSize={file_size / 1024} kb) Exception=({e}).")
