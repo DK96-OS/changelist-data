@@ -139,7 +139,7 @@ def test_validate_file_input_text_file_deleted_after_check(monkeypatch, tmp_path
     file_path.write_text("content")
     # Simulate deletion after the exists/is_file check, before read_text
     monkeypatch.setattr(Path, "read_text", lambda self: (_ for _ in ()).throw(FileNotFoundError()))
-    with pytest.raises(SystemExit, match="Couldn't find the file, after checking that it exists."):
+    with pytest.raises(SystemExit, match="OSError occurred while reading Input File."):
         validate_file_input_text(file_path)
 
 def test_validate_file_input_text_permission_error(monkeypatch, tmp_path):
@@ -149,7 +149,7 @@ def test_validate_file_input_text_permission_error(monkeypatch, tmp_path):
     def raise_permission_error(self):
         raise PermissionError("No permission")
     monkeypatch.setattr(Path, "read_text", raise_permission_error)
-    with pytest.raises(SystemExit, match="IOError occurred while reading Input File"):
+    with pytest.raises(SystemExit, match="OSError occurred while reading Input File"):
         validate_file_input_text(file_path)
 
 def test_validate_file_input_text_unicode_decode_error(monkeypatch, tmp_path):
@@ -159,5 +159,5 @@ def test_validate_file_input_text_unicode_decode_error(monkeypatch, tmp_path):
     def raise_unicode_error(self):
         raise UnicodeDecodeError("utf-8", b"", 0, 1, "reason")
     monkeypatch.setattr(Path, "read_text", raise_unicode_error)
-    with pytest.raises(SystemExit, match="File is not valid text. Unicode decode error."):
+    with pytest.raises(SystemExit, match="File is not valid text. Unicode error."):
         validate_file_input_text(file_path)
