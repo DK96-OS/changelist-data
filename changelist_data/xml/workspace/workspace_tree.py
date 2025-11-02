@@ -54,12 +54,11 @@ class WorkspaceTree(BaseXMLTree):
         changelists: Iterable[Changelist],
     ):
         """ Update the XML Tree's Changelist Manager Lists.
-        
+
     **Parameters:**
      - changelists (Iterable[Changelist]): The List or Iterable of Changelists.
         """
-        clm = self.changelist_manager
-        if clm is None:
+        if (clm := self.changelist_manager) is None:
             exit('XML File does not have a Changelist Manager.')
         # First obtain all Option Elements
         options = list(clm.findall('option'))

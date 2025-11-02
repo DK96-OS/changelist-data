@@ -28,7 +28,7 @@ def read_file(
     )
 
 
-def _generate_changelists_from_file(
+def generate_changelists_from_file(
     file_path: Path = storage_type.get_default_path(StorageType.WORKSPACE),
 ) -> Generator[Changelist, None, None]:
     if len(file_content := file_validation.validate_file_input_text(file_path)) == 0:
