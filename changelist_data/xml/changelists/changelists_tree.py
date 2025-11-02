@@ -15,7 +15,7 @@ class ChangelistsTree(BaseXMLTree):
  - xml_root (Element): The XML root element.
  - changelists_element (Element): The Changelists Tag Element.
     """
-    
+
     def __init__(
         self,
         xml_root: Element,
@@ -54,12 +54,11 @@ class ChangelistsTree(BaseXMLTree):
         changelists: Iterable[Changelist],
     ):
         """ Update the XML Tree's Changelists.
-        
+
     **Parameters:**
      - changelists (Iterable[Changelist]): The List or Iterable of Changelists.
         """
-        clm = self.changelists_element
-        if clm is None:
+        if (clm := self.changelists_element) is None:
             exit('XML File does not have a Changelists Element.')
         # Clear the Changelists Element
         clm.clear() # Need to Restore any Attributes after Clear operation:
